@@ -97,10 +97,29 @@ resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_lambda_permission" "lambda_permission" {
-  statement_id  = "AllowExecutionFromAPIGateway"
+resource "aws_lambda_permission" "lambda_permission_health" {
+  statement_id  = "AllowExecutionFromAPIGatewayForHealth"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-function.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.python-deployment.execution_arn}:${aws_api_gateway_rest_api.python-deployment.id}/*/*"
+  source_arn    = "${aws_api_gateway_rest_api.python-deployment.execution_arn}/*/*/health"
 }
+
+resource "aws_lambda_permission" "lambda_permission_student" {
+  statement_id  = "AllowExecutionFromAPIGatewayForStudent"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda-function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.python-deployment.execution_arn}/*/*/student"
+}
+
+resource "aws_lambda_permission" "lambda_permission_students" {
+  statement_id  = "AllowExecutionFromAPIGatewayForStudents"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda-function.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.python-deployment.execution_arn}/*/*/students"
+}
+
+# arn:aws:execute-api:us-east-1:593242862402:usx36z2fm6:usx36z2fm6/*/POST/students
+# arn:aws:execute-api:us-east-1:593242862402:usx36z2fm6/*/GET/health
