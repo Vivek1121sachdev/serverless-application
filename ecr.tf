@@ -9,7 +9,7 @@ resource "aws_ecr_repository" "repository_name" {
   provisioner "local-exec" {
     working_dir = "/mnt/a/Tech-Holding/python-deployment/code"
 
-    command = "./ecr-img.sh"
+    command = "./ecr-img-push.sh"
   }
 }
 
