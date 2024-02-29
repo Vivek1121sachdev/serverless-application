@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "lambda-function" {
   function_name = "students-lambda-funtions"
-  timeout       = 300 # seconds
+  timeout       = 900 # seconds
   image_uri     = "${aws_ecr_repository.repository_name.repository_url}:latest"
   package_type  = "Image"
 
