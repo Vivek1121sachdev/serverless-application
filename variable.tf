@@ -3,9 +3,9 @@ variable "region" {
     type = string
 }
 
-variable "aws_profile" {
-  type = string
-}
+# variable "aws_profile" {
+#   type = string
+# }
 
 
 // variables for lambda.tf
