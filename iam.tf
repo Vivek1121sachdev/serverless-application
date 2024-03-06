@@ -83,17 +83,17 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "apigw" {
-  role       = var.api-gw-role
+  role       = aws_iam_role.apigw-role.name
   policy_arn = aws_iam_policy.apigw-policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_simple" {
-  role       = var.lambda-role
+  role       = aws_iam_role.lambda-role.name
   policy_arn = aws_iam_policy.lambda-policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
-  role       = var.lambda-role
+  role       = aws_iam_role.lambda-role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
