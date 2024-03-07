@@ -1,6 +1,6 @@
 // variables of main.tf 
 variable "region" {
-    type = string
+  type = string
 }
 
 # variable "aws_profile" {
