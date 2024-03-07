@@ -7,7 +7,32 @@ resource "aws_ecr_repository" "repository_name" {
   }
 }
 
-resource "null_resource" "config" {
+
+resource "aws_ecr_lifecycle_policy" "image-lifecycle-policy" {
+  repository = aws_ecr_repository.repository_name
+
+  policy = <<EOF
+{
+    "rules": [
+        {
+            "rulePriority": 1,
+            "description": "Keep last 30 images",
+            "selection": {
+                "tagStatus": "any",
+                "countType": "imageCountMoreThan",
+                "countNumber": 10
+            },
+            "action": {
+                "type": "expire"
+            }
+        }
+    ]
+}
+EOF
+}
+
+
+resource "null_resource" "build-img-script" {
 
   triggers = {
     # always_run = "${timestamp()}"
@@ -23,4 +48,3 @@ resource "null_resource" "config" {
   }
   depends_on = [aws_ecr_repository.repository_name]
 }
-
