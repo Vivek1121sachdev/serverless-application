@@ -9,7 +9,7 @@ resource "aws_ecr_repository" "repository_name" {
 
 
 resource "aws_ecr_lifecycle_policy" "image-lifecycle-policy" {
-  repository = "${aws_ecr_repository.repository_name.id}"
+  repository = aws_ecr_repository.repository_name.id
 
   policy = <<EOF
 {
@@ -36,15 +36,22 @@ resource "null_resource" "build-img-script" {
 
   triggers = {
     # always_run = "${timestamp()}"
-    lambda_function = "${sha1(file("A:\\Tech-Holding\\python-deployment\\code\\lambda_function.py"))}"
-    custom_encoder  = "${sha1(file("A:\\Tech-Holding\\python-deployment\\code\\custom_encoder.py"))}"
+    lambda_function = "${sha1(file("\\code\\lambda_function.py"))}"
+    custom_encoder  = "${sha1(file("\\code\\custom_encoder.py"))}"
   }
 
   provisioner "local-exec" {
-    working_dir = "A:\\Tech-Holding\\python-deployment\\code\\"
+    working_dir = "\\code\\"
 
     command = "sh ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
 
   }
+
+  provisioner "local-exec" {
+    when        = destroy
+    working_dir = "."
+    command     = "sh ./delete-ecr-img.sh"
+  }
+
   depends_on = [aws_ecr_repository.repository_name]
 }
