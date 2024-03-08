@@ -41,16 +41,15 @@ resource "null_resource" "build-img-script" {
   }
 
   provisioner "local-exec" {
-    working_dir = "\\code\\"
-
-    command = "sh ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
+    working_dir = "./code"
+    command = "bash ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
 
   }
 
   provisioner "local-exec" {
     when        = destroy
     working_dir = "."
-    command     = "sh ./delete-ecr-img.sh"
+    command     = "bash ./delete-ecr-img.sh"
   }
 
   depends_on = [aws_ecr_repository.repository_name]
