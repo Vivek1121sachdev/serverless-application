@@ -5,6 +5,6 @@ resource "aws_lambda_function" "lambda-function" {
   package_type  = "Image"
 
   role = aws_iam_role.lambda-role.arn
-  depends_on = [ null_resource.config ]
+  depends_on = [ null_resource.build-img-script ]
 }
 
