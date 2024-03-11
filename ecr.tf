@@ -36,13 +36,13 @@ resource "null_resource" "build-img-script" {
 
   triggers = {
     # always_run = "${timestamp()}"
-    lambda_function = "${sha1(file("\\code\\lambda_function.py"))}"
-    custom_encoder  = "${sha1(file("\\code\\custom_encoder.py"))}"
+    lambda_function = "${sha1(file("./code/lambda_function.py"))}"
+    custom_encoder  = "${sha1(file("./code/custom_encoder.py"))}"
   }
 
   provisioner "local-exec" {
     working_dir = "./code"
-    command = "bash ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
+    command     = "sh ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
     # command = "powershell -File .\\ecr-img-push.ps1 ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
 
   }
