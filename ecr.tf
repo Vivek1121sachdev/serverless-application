@@ -42,8 +42,8 @@ resource "null_resource" "build-img-script" {
 
   provisioner "local-exec" {
     working_dir = "./code"
-    command     = "sh ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
-    # command = "powershell -File .\\ecr-img-push.ps1 ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
+    # command     = "sh ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
+    command = "powershell -File .\\ecr-img-push.ps1 ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
 
   }
 
