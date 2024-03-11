@@ -21,3 +21,65 @@ docker tag $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG $DOCKER_ECR_REPO_URI:$DOCKER_IMA
 
 # Push Docker image to ECR
 docker push $DOCKER_ECR_REPO_URI:$DOCKER_IMAGE_TAG
+
+
+# param (
+#     [string]$AWS_REGION=$args[0],
+#     [string]$AWS_ACCOUNT_ID=$args[1],
+#     [string]$ECR_REPO_NAME=$args[2],
+#     # [string]$DOCKER_IMAGE_NAME=$args[2]
+#     [string]$DOCKER_IMAGE_TAG=$args[3]
+# )
+
+# # Docker image details
+# $DOCKER_IMAGE_NAME = $ECR_REPO_NAME
+
+# # Build Docker image
+# # docker build -t $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG .
+# docker build -t ($DOCKER_IMAGE_NAME + ":" + $DOCKER_IMAGE_TAG) .
+
+# # Login to ECR
+# aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+# # Tag Docker image with ECR repository URI
+# # $DOCKER_ECR_REPO_URI = "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME"
+# # docker tag "${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}" "${DOCKER_ECR_REPO_URI}:${DOCKER_IMAGE_TAG}"
+
+# DOCKER_ECR_REPO_URI = "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME"
+# docker tag ($DOCKER_IMAGE_NAME + ":" + $DOCKER_IMAGE_TAG) ($DOCKER_ECR_REPO_URI + ":" + $DOCKER_IMAGE_TAG)
+
+# # Push Docker image to ECR
+# docker push "${DOCKER_ECR_REPO_URI}:${DOCKER_IMAGE_TAG}"
+
+
+# set -e
+
+# param ( 
+#     [string]$AWS_REGION,
+#     [string]$AWS_ACCOUNT_ID,
+#     [string]$ECR_REPO_NAME,
+#     [string]$DOCKER_IMAGE_TAG
+# )
+
+
+# # Docker image details
+# $DOCKER_IMAGE_NAME = $ECR_REPO_NAME
+
+# # Build Docker image
+# docker build -t ($DOCKER_IMAGE_NAME + ":" + $DOCKER_IMAGE_TAG) .
+
+# # # Login to ECR
+# # aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+# # Obtain authentication token for Amazon ECR
+# $token = aws ecr get-login-password --region $AWS_REGION
+
+# # Log in to Docker with the authentication token
+# docker login -u AWS -p $token $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+# # Tag Docker image with ECR repository URI
+# $DOCKER_ECR_REPO_URI = "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME"
+# docker tag ($DOCKER_IMAGE_NAME + ":" + $DOCKER_IMAGE_TAG) ($DOCKER_ECR_REPO_URI + ":" + $DOCKER_IMAGE_TAG)
+
+# # Push Docker image to ECR
+# docker push ($DOCKER_ECR_REPO_URI + ":" + $DOCKER_IMAGE_TAG)
