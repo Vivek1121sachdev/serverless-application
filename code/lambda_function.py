@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-print('vivek sachdev')
+print('vivek')
 
 
 dynamodbTableName = 'students-data'
