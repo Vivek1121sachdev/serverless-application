@@ -31,18 +31,18 @@ variable "lambda_timeout" {
 #   type = list(string)
 # }
 
-variable "arg-1" {
-  type = string
-}
+# variable "arg-1" {
+#   type = string
+# }
 
-variable "arg-2" {
-  type = string
-}
+# variable "arg-2" {
+#   type = string
+# }
 
-variable "arg-3" {
-  type = string
-}
+# variable "arg-3" {
+#   type = string
+# }
 
-variable "arg-4" {
-  type = string
-}
+# variable "arg-4" {
+#   type = string
+# }

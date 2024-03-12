@@ -76,7 +76,9 @@ $DOCKER_IMAGE_NAME = $ECR_REPO_NAME
 docker build -t ($DOCKER_IMAGE_NAME + ":" + $DOCKER_IMAGE_TAG) .
 
 # # Login to ECR
-aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+# aws ecr get-login-password --region $AWS_REGION --profile $AWS_PROFILE | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+(Get-ECRLoginCommand).Password | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_PROFILE.amazonaws.com
 
 # Obtain authentication token for Amazon ECR
 # $token = aws ecr get-login-password --region $AWS_REGION
