@@ -32,28 +32,28 @@ EOF
 }
 
 
-resource "null_resource" "build-img-script" {
+# resource "null_resource" "build-img-script" {
 
-  # triggers = {
-  #   # always_run = "${timestamp()}"
-  #   lambda_function = "${sha1(file("./code/lambda_function.py"))}"
-  #   custom_encoder  = "${sha1(file("./code/custom_encoder.py"))}"
-  # }
+#   # triggers = {
+#   #   # always_run = "${timestamp()}"
+#   #   lambda_function = "${sha1(file("./code/lambda_function.py"))}"
+#   #   custom_encoder  = "${sha1(file("./code/custom_encoder.py"))}"
+#   # }
 
-  # provisioner "local-exec" {
-  #   working_dir = "./code"
-  #   # command     = "sh ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
-  #   command = "powershell -File .\\ecr-img-push.ps1 ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
+#   # provisioner "local-exec" {
+#   #   working_dir = "./code"
+#   #   # command     = "sh ./ecr-img-push.sh ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
+#   #   command = "powershell -File .\\ecr-img-push.ps1 ${var.arg-1} ${var.arg-2} ${var.arg-3} ${var.arg-4}"
 
-  # }
+#   # }
 
-  provisioner "local-exec" {
-    when        = destroy
-    working_dir = "."
-    command     = "bash ./delete-ecr-img.sh"
-  }
+#   provisioner "local-exec" {
+#     when        = destroy
+#     working_dir = "."
+#     command     = "bash ./delete-ecr-img.sh"
+#   }
 
-  depends_on = [aws_ecr_repository.repository_name]
-}
+#   depends_on = [aws_ecr_repository.repository_name]
+# }
 
   
