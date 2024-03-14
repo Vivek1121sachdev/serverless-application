@@ -69,12 +69,11 @@ param (
 )
 
 echo $gitHash
-
 # Docker image details
 $DOCKER_IMAGE_NAME = $ECR_REPO_NAME
 
 # Build Docker image
-docker build -t ($DOCKER_IMAGE_NAME + ":" + $DOCKER_IMAGE_TAG) .
+docker build -t ($DOCKER_IMAGE_NAME + ":" + $gitHash) .
 
 # # Login to ECR
 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
@@ -89,7 +88,7 @@ aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --
 
 # Tag Docker image with ECR repository URI
 $DOCKER_ECR_REPO_URI = "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME"
-docker tag ($DOCKER_IMAGE_NAME + ":" + $DOCKER_IMAGE_TAG) ($DOCKER_ECR_REPO_URI + ":" + $DOCKER_IMAGE_TAG)
+docker tag ($DOCKER_IMAGE_NAME + ":" + $gitHash) ($DOCKER_ECR_REPO_URI + ":" + $gitHash)
 
 # Push Docker image to ECR
-docker push ($DOCKER_ECR_REPO_URI + ":" + $DOCKER_IMAGE_TAG)
+docker push ($DOCKER_ECR_REPO_URI + ":" + $gitHash)
