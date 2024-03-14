@@ -65,9 +65,10 @@ param (
     [string]$AWS_REGION=$args[0],
     [string]$AWS_ACCOUNT_ID=$args[1],
     [string]$ECR_REPO_NAME=$args[2],
-    [string]$DOCKER_IMAGE_TAG=$args[3]
+    [string]$gitHash
 )
 
+echo $gitHash
 
 # Docker image details
 $DOCKER_IMAGE_NAME = $ECR_REPO_NAME
