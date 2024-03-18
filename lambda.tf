@@ -8,3 +8,7 @@ resource "aws_lambda_function" "lambda-function" {
   # depends_on = [ null_resource.build-img-script ]
 }
 
+data "aws_ecr_image" "image" {
+  repository_name = "${aws_ecr_repository.repository_name.name}"
+  most_recent       = true
+}
