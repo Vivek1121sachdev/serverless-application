@@ -1,7 +1,7 @@
 param ( 
-    [string]$AWS_REGION=$args[0],
-    [string]$AWS_ACCOUNT_ID=$args[1],
-    [string]$ECR_REPO_NAME=$args[2],
+    [string]$AWS_REGION,
+    [string]$AWS_ACCOUNT_ID,
+    [string]$ECR_REPO_NAME,
     [string]$gitHash
 )
 
