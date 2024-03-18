@@ -120,6 +120,3 @@ resource "aws_lambda_permission" "lambda_permission_students" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.serverless-app.execution_arn}/*/*/students"
 }
-
-# arn:aws:execute-api:us-east-1:593242862402:usx36z2fm6:usx36z2fm6/*/POST/students
-# arn:aws:execute-api:us-east-1:593242862402:usx36z2fm6/*/GET/health
