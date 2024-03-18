@@ -1,14 +1,18 @@
 resource "aws_lambda_function" "lambda-function" {
   function_name = var.function_name
   timeout       = var.lambda_timeout
-  image_uri     = "${aws_ecr_repository.repository_name.repository_url}:${data.aws_ecr_image.image.id}"
+  image_uri     = "${aws_ecr_repository.repository_name.repository_url}:${data.local_file.image-tag.content}"
   package_type  = "Image"
 
   role = aws_iam_role.lambda-role.arn
   # depends_on = [ null_resource.build-img-script ]
 }
 
-data "aws_ecr_image" "image" {
-  repository_name = "${aws_ecr_repository.repository_name.name}"
-  most_recent       = true
+# data "aws_ecr_image" "image" {
+#   repository_name = aws_ecr_repository.repository_name.name
+#   most_recent     = true
+# }
+
+data "local_file" "image-tag" {
+  filename = "gitHashValue.txt"
 }
