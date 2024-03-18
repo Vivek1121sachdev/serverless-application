@@ -102,7 +102,7 @@ resource "aws_lambda_permission" "lambda_permission_health" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-function.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.python-deployment.execution_arn}/*/*/health"
+  source_arn    = "${aws_api_gateway_rest_api.serverless-app.execution_arn}/*/*/health"
 }
 
 resource "aws_lambda_permission" "lambda_permission_student" {
@@ -110,7 +110,7 @@ resource "aws_lambda_permission" "lambda_permission_student" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-function.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.python-deployment.execution_arn}/*/*/student"
+  source_arn    = "${aws_api_gateway_rest_api.serverless-app.execution_arn}/*/*/student"
 }
 
 resource "aws_lambda_permission" "lambda_permission_students" {
@@ -118,7 +118,7 @@ resource "aws_lambda_permission" "lambda_permission_students" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-function.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.python-deployment.execution_arn}/*/*/students"
+  source_arn    = "${aws_api_gateway_rest_api.serverless-app.execution_arn}/*/*/students"
 }
 
 # arn:aws:execute-api:us-east-1:593242862402:usx36z2fm6:usx36z2fm6/*/POST/students
