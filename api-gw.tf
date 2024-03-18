@@ -2,6 +2,13 @@ resource "aws_api_gateway_rest_api" "serverless-app" {
   name = "serverless-app"
 }
 
+
+# resource "aws_api_gateway_resource" "resources" {
+#   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+#   parent_id   = aws_api_gateway_rest_api.serverless-app.root_resource_id
+#   path_part   = var.api-gateway-resources[count.index]
+# }
+
 resource "aws_api_gateway_resource" "health" {
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
   parent_id   = aws_api_gateway_rest_api.serverless-app.root_resource_id

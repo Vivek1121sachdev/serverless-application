@@ -9,13 +9,16 @@ variable "region" {
 
 
 // variables for lambda.tf
-variable "function_name" {
-  type = string
-}
+# variable "function_name" {
+#   type = string
+# }
 
-variable "lambda_timeout" {
-  type = number
-}
+# variable "lambda_timeout" {
+#   type = number
+# }
 
-
+# variable "api-gateway-resources" {
+#   type    = list(string)
+#   default = ["health", "student", "students"]
+# }
 
