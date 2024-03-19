@@ -7,10 +7,5 @@ output "ecr_uri" {
 }
 
 output "image_uri" {
-  value = "${module.ecr.image_uri}"
+  value = "${module.lambda.image_uri}"
 }
-
-output "image_tag" {
-  value = "${module.ecr.image_tag}"
-}
-
