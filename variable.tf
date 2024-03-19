@@ -21,4 +21,3 @@ variable "region" {
 #   type    = list(string)
 #   default = ["health", "student", "students"]
 # }
-

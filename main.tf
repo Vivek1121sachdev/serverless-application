@@ -19,13 +19,14 @@ module "ecr" {
 module "lambda" {
   source = ".\\modules\\lambda"
 
-  function_name = "serverless-app"
-  lambda_timeout = 900
-  repository_name = "${module.ecr.repository_name}"
-  repository_url = "${module.ecr.repository_url}"
-  lambda-role-arn = "${aws_iam_role.lambda-role.arn}"
+  function_name   = "serverless-app"
+  lambda_timeout  = 900
+  repository_name = module.ecr.repository_name
+  lambda-role-arn = aws_iam_role.lambda-role.arn
+  image-uri = "${module.ecr.repository_url}:${data.data.aws_ecr_image.image.image_tags[0]}"
 }
 
 module "dynamodb" {
   source = ".\\modules\\dynamoDB"
 }
+

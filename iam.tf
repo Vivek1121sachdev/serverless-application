@@ -100,7 +100,7 @@ resource "aws_iam_role_policy_attachment" "basic_lambda_execution" {
 resource "aws_lambda_permission" "lambda_permission_health" {
   statement_id  = "AllowExecutionFromAPIGatewayForHealth"
   action        = "lambda:InvokeFunction"
-  function_name = "${module.lambda.function_name}"
+  function_name = module.lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.serverless-app.execution_arn}/*/*/health"
 }
@@ -108,7 +108,7 @@ resource "aws_lambda_permission" "lambda_permission_health" {
 resource "aws_lambda_permission" "lambda_permission_student" {
   statement_id  = "AllowExecutionFromAPIGatewayForStudent"
   action        = "lambda:InvokeFunction"
-  function_name = "${module.lambda.function_name}"
+  function_name = module.lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.serverless-app.execution_arn}/*/*/student"
 }
@@ -116,7 +116,7 @@ resource "aws_lambda_permission" "lambda_permission_student" {
 resource "aws_lambda_permission" "lambda_permission_students" {
   statement_id  = "AllowExecutionFromAPIGatewayForStudents"
   action        = "lambda:InvokeFunction"
-  function_name = "${module.lambda.function_name}"
+  function_name = module.lambda.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.serverless-app.execution_arn}/*/*/students"
 }

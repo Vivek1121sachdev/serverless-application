@@ -7,14 +7,14 @@ variable "lambda_timeout" {
 }
 
 
-variable "repository_url" {
-  type = string
-}
-
 variable "lambda-role-arn" {
   type = string
 }
 
 variable "repository_name" {
+  type = string
+}
+
+variable "image-uri" {
   type = string
 }
