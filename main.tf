@@ -13,16 +13,19 @@ terraform {
 }
 
 module "ecr" {
-  source = ".\\Modules\\ecr"
+  source = ".\\modules\\ecr"
 }
 
 module "lambda" {
-  source = ".\\Modules\\lambda"
+  source = ".\\modules\\lambda"
 
   function_name = "serverless-app"
   lambda_timeout = 900
+  image_tag = "${module.ecr.image_tag}"
+  repository_name = "${module.ecr.repository_name}"
+  lambda-role-arn = "${aws_iam_role.lambda-role.arn}"
 }
 
 module "dynamodb" {
-  source = ".\\Modules\\dynamoDB"
+  source = ".\\modules\\dynamoDB"
 }

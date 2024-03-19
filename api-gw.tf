@@ -75,7 +75,7 @@ resource "aws_api_gateway_integration" "health-GET-integration" {
   http_method             = aws_api_gateway_method.health_get_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda-function.invoke_arn
+  uri                     = "${module.lambda.invoke_arn}"
 }
 
 resource "aws_api_gateway_integration" "student-GET-integration" {
@@ -84,7 +84,7 @@ resource "aws_api_gateway_integration" "student-GET-integration" {
   http_method             = aws_api_gateway_method.student_get_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda-function.invoke_arn
+  uri                     = "${module.lambda.invoke_arn}"
 }
 
 resource "aws_api_gateway_integration" "student-DELETE-integration" {
@@ -93,7 +93,7 @@ resource "aws_api_gateway_integration" "student-DELETE-integration" {
   http_method             = aws_api_gateway_method.student_delete_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda-function.invoke_arn
+  uri                     = "${module.lambda.invoke_arn}"
 }
 
 resource "aws_api_gateway_integration" "student-POST-integration" {
@@ -102,7 +102,7 @@ resource "aws_api_gateway_integration" "student-POST-integration" {
   http_method             = aws_api_gateway_method.student_post_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda-function.invoke_arn
+  uri                     = "${module.lambda.invoke_arn}"
 }
 
 resource "aws_api_gateway_integration" "student-PATCH-integration" {
@@ -111,7 +111,7 @@ resource "aws_api_gateway_integration" "student-PATCH-integration" {
   http_method             = aws_api_gateway_method.student_patch_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda-function.invoke_arn
+  uri                     = "${module.lambda.invoke_arn}"
 }
 
 resource "aws_api_gateway_integration" "students-GET-integration" {
@@ -120,7 +120,7 @@ resource "aws_api_gateway_integration" "students-GET-integration" {
   http_method             = aws_api_gateway_method.students_get_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.lambda-function.invoke_arn
+  uri                     = "${module.lambda.invoke_arn}"
 }
 
 resource "aws_api_gateway_deployment" "api-gw-deployment" {
