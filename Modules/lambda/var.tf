@@ -10,7 +10,7 @@ variable "image_tag" {
   type = string
 }
 
-variable "repository_name" {
+variable "repository_url" {
   type = string
 }
 

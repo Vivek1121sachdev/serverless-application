@@ -21,8 +21,8 @@ module "lambda" {
 
   function_name = "serverless-app"
   lambda_timeout = 900
+  repository_url = "${module.ecr.repository_url}"
   image_tag = "${module.ecr.image_tag}"
-  repository_name = "${module.ecr.repository_name}"
   lambda-role-arn = "${aws_iam_role.lambda-role.arn}"
 }
 
