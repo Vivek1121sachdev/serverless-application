@@ -23,7 +23,7 @@ module "lambda" {
   lambda_timeout  = 900
   repository_name = module.ecr.repository_name
   lambda-role-arn = aws_iam_role.lambda-role.arn
-  image-uri = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
+  image-uri       = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
 }
 
 module "dynamodb" {
