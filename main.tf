@@ -13,7 +13,9 @@ terraform {
 }
 
 module "ecr" {
-  source = ".\\modules\\ecr"
+  source             = ".\\modules\\ecr"
+  repo-name          = "serverless-app"
+  image-expire-count = 3
 }
 
 module "lambda" {
@@ -27,6 +29,10 @@ module "lambda" {
 }
 
 module "dynamodb" {
-  source = ".\\modules\\dynamoDB"
+  source         = ".\\modules\\dynamoDB"
+  table-name     = "students-data"
+  hash-key       = "studentId"
+  attribute-name = "studentId"
+  attribute-type = "S"
 }
 

@@ -1,9 +1,9 @@
 resource "aws_ecr_repository" "repository_name" {
-  name                 = "serverless-app"
+  name                 = var.repo-name
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
-    scan_on_push = false
+    scan_on_push = true
   }
 }
 
@@ -20,7 +20,7 @@ resource "aws_ecr_lifecycle_policy" "image-lifecycle-policy" {
             "selection": {
                 "tagStatus": "any",
                 "countType": "imageCountMoreThan",
-                "countNumber": 3
+                "countNumber": "${var.image-expire-count}"
             },
             "action": {
                 "type": "expire"
