@@ -9,3 +9,4 @@ output "function_name" {
 output "image_uri" {
   value = aws_lambda_function.lambda-function.image_uri
 }
+

@@ -24,9 +24,10 @@ module "lambda" {
   function_name   = "serverless-app"
   lambda_timeout  = 900
   repository_name = module.ecr.repository_name
-  lambda-role-arn = aws_iam_role.lambda-role.arn
   image-uri       = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
+  execution_arn   = aws_api_gateway_rest_api.serverless-app.execution_arn
 }
+
 
 module "dynamodb" {
   source         = ".\\modules\\dynamoDB"

@@ -4,5 +4,5 @@ resource "aws_lambda_function" "lambda-function" {
   image_uri     = "${var.image-uri}"
   package_type  = "Image"
 
-  role = var.lambda-role-arn
+  role = aws_iam_role.lambda-role.arn
 }
