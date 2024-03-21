@@ -26,7 +26,7 @@ module "lambda" {
   repository_name = module.ecr.repository_name
   image-uri       = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
   execution_arn   = aws_api_gateway_rest_api.serverless-app.execution_arn
-  path-parts = compact(["health", "student", "students", ""])
+  path-parts      = compact(["health", "student", "students", ""])
 }
 
 

@@ -30,10 +30,23 @@ resource "aws_iam_policy" "lambda-policy" {
 			"Sid": "Statement1",
 			"Effect": "Allow",
 			"Action": [
-				"cloudwatch:*",
-				"dynamodb:*"
+				"logs:CreateLogGroup",
+				"logs:CreateLogStream",
+				"logs:DescribeLogGroups",
+				"logs:DescribeLogStreams",
+				"logs:PutLogEvents",
+				"logs:GetLogEvents",
+				"logs:FilterLogEvents",
+
+				"dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem"
 			],
-			"Resource": ["*"]
+			"Resource": ["arn:aws:dynamodb:us-east-1:593242862402:table/students-data"]
 		}
 	]
 }
