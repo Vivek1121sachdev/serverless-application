@@ -17,3 +17,7 @@ variable "image-uri" {
 variable "execution_arn" {
   type = string
 }
+
+variable "path-parts" {
+  type = list(string)
+}

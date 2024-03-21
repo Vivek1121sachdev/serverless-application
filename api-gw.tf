@@ -4,9 +4,9 @@ resource "aws_api_gateway_rest_api" "serverless-app" {
 
 locals {
   resource-method = {
-    health   = ["GET"],
-    student  = ["GET", "POST", "PATCH", "DELETE"],
-    students = ["GET"]
+    health   = toset(["GET"]),
+    student  = toset(["GET", "POST", "PATCH", "DELETE"]),
+    students = toset(["GET"])
   }
 }
 
@@ -28,70 +28,18 @@ resource "aws_api_gateway_method" "all_method" {
   authorization = "NONE"
 }
 
-# resource "aws_api_gateway_method" "health_get_method" {
-#   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
-#   resource_id   = aws_api_gateway_resource.resources["health"].id
-#   http_method   = local.methods.get
-#   authorization = "NONE"
-# }
-
-# resource "aws_api_gateway_method" "student-methods" {
-#   for_each = local.methods
-
-#   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
-#   resource_id   = aws_api_gateway_resource.resources["student"].id
-#   http_method   = each.value
-#   authorization = "NONE"
-# }
-
-# resource "aws_api_gateway_method" "students_get_method" {
-#   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
-#   resource_id   = aws_api_gateway_resource.resources["students"].id
-#   http_method   = local.methods.get
-#   authorization = "NONE"
-# }
-
 
 resource "aws_api_gateway_integration" "resource-method-integration" {
   for_each = local.resource-method
 
   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
   resource_id             = "aws_api_gateway_resource.resources.${each.key}.id"
-  http_method             =  each.value
+  http_method             = each.value
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = module.lambda.invoke_arn
 }
 
-
-# resource "aws_api_gateway_integration" "health-GET-integration" {
-#   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
-#   resource_id             = aws_api_gateway_resource.resources["health"].id
-#   http_method             = aws_api_gateway_method.health_get_method.http_method
-#   integration_http_method = "POST"
-#   type                    = "AWS_PROXY"
-#   uri                     = module.lambda.invoke_arn
-# }
-
-# resource "aws_api_gateway_integration" "student-integration" {
-#   for_each = aws_api_gateway_method.student-methods
-
-#   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
-#   resource_id             = aws_api_gateway_resource.resources["student"].id
-#   http_method             = each.value.http_method
-#   integration_http_method = "POST"
-#   type                    = "AWS_PROXY"
-#   uri                     = module.lambda.invoke_arn
-# }
-
-# resource "aws_api_gateway_integration" "students-GET-integration" {
-#   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
-#   resource_id             = aws_api_gateway_resource.resources["students"].id
-#   http_method             = aws_api_gateway_method.students_get_method.http_method
-#   integration_http_method = "POST"
-#   type                    = "AWS_PROXY"
-#   uri                     = module.lambda.invoke_arn
-# }
 
 resource "aws_api_gateway_deployment" "api-gw-deployment" {
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
@@ -102,16 +50,10 @@ resource "aws_api_gateway_deployment" "api-gw-deployment" {
     create_before_destroy = true
   }
   depends_on = [
-    # aws_api_gateway_method.student-methods,
-    # aws_api_gateway_method.students_get_method,
-    # aws_api_gateway_method.health_get_method,
 
     aws_api_gateway_method.all_method,
     aws_api_gateway_integration.resource-method-integration
-    
-    # aws_api_gateway_integration.student-integration,
-    # aws_api_gateway_integration.students-GET-integration,
-    # aws_api_gateway_integration.health-GET-integration
+
   ]
 }
 
