@@ -50,6 +50,7 @@ resource "aws_api_gateway_method" "students_get_method" {
 
 // api gateway resourse method integration
 // added one comment to test git webhook
+// added one more command after installing ngrok
 
 resource "aws_api_gateway_integration" "health-GET-integration" {
   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
