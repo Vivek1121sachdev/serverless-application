@@ -15,7 +15,6 @@ terraform {
 module "ecr" {
   source             = ".\\modules\\ecr"
   repo-name          = "serverless-app"
-  image-expire-count = 3
 }
 
 module "lambda" {
