@@ -18,11 +18,13 @@ pipeline{
         }
         stage('pull-request details'){
             steps{
-                bat "echo 'pull id:'%ghprbPullId%"
-                bat "echo 'Commit Author:'%ghprbActualCommitAuthor%"
-                bat "echo 'Commit Author Email:'%ghprbActualCommitAuthorEmail%"
-                bat "echo 'Source Branch:'%ghprbSourceBranch%"
-                bat "echo 'Target Branch:'%ghprbTargetBranch%"
+                bat"""
+                    echo 'pull id:'%ghprbPullId%
+                    echo 'Commit Author:'%ghprbActualCommitAuthor%
+                    echo 'Commit Author Email:'%ghprbActualCommitAuthorEmail%
+                    echo 'Source Branch:'%ghprbSourceBranch%
+                    echo 'Target Branch:'%ghprbTargetBranch%
+                """
             }
         }     
     }
