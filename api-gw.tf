@@ -50,7 +50,6 @@ resource "aws_api_gateway_method" "students_get_method" {
 
 // api gateway resourse method integration
 
-
 resource "aws_api_gateway_integration" "health-GET-integration" {
   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
   resource_id             = aws_api_gateway_resource.resources["health"].id
