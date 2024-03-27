@@ -1,0 +1,18 @@
+pipeline{   
+    agent any
+    options {
+        ansiColor('xterm')
+    }
+    stages{
+        stage('terraform init'){
+            steps{
+                bat "terraform init -upgrade"
+            }
+        }       
+        stage('terraform plan'){
+            steps{
+                bat 'terraform plan'
+            }
+        }     
+    }
+}
