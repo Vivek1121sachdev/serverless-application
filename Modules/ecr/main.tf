@@ -30,3 +30,6 @@ resource "aws_ecr_lifecycle_policy" "image-lifecycle-policy" {
 }
 EOF
 }
+
+
+// testing
