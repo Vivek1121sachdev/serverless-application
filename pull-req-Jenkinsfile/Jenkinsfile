@@ -1,8 +1,10 @@
 pipeline{   
     agent any
+    
     options {
         ansiColor('xterm')
     }
+    
     stages{
         stage('terraform init'){
             steps{
@@ -16,3 +18,5 @@ pipeline{
         }     
     }
 }
+
+
