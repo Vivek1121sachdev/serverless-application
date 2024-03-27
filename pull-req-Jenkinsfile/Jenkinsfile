@@ -15,8 +15,12 @@ pipeline{
             steps{
                 bat 'terraform plan'
             }
+        }
+        stage('pull-request details'){
+            steps{
+                bat '%ghprbPullId%'
+            }
         }     
     }
 }
 
-// connertdvasdc
