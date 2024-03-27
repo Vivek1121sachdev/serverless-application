@@ -10,7 +10,7 @@ pipeline{
         ansiColor('xterm')
     }
     stages{
-        
+
         stage('terraform init'){
             steps{
                 bat "terraform init -upgrade"
@@ -51,3 +51,4 @@ pipeline{
         }
     }
 }
+// comment
