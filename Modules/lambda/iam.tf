@@ -63,7 +63,7 @@ resource "aws_iam_role_policy_attachment" "policy-attachment" {
 resource "aws_lambda_permission" "lambda_permission_all_resources" {
   for_each = toset(var.path-parts)
 
-  statement_id  = "AllowExecutionFromAPIGatewayForResources"
+  statement_id  = "AllowExecutionFromAPIGatewayForResources-${each.value}"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-function.function_name
   principal     = "apigateway.amazonaws.com"
