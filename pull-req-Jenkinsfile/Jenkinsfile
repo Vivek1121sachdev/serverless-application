@@ -18,7 +18,7 @@ pipeline{
         }
         stage('pull-request details'){
             steps{
-                bat '%ghprbPullId%'
+                bat "echo 'pull id:'%ghprbPullId%"
             }
         }     
     }
