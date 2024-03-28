@@ -13,7 +13,6 @@ pipeline{
 
         stage('terraform init'){
             steps{
-                bat "terraform init -migrate-state"
                 bat "terraform init -upgrade"
             }
         }
