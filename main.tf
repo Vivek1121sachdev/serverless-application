@@ -24,7 +24,7 @@ module "lambda" {
   lambda_timeout  = 900
   repository_name = module.ecr.repository_name
   image-uri       = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
-  execution_arn   = aws_api_gateway_rest_api.serverless-app.execution_arn
+  execution_arn   = module.api-gw.execution_arn
   path-parts      = compact(["health", "student", "students", ""])
 }
 
@@ -37,3 +37,9 @@ module "dynamodb" {
   attribute-type = "S"
 }
 
+module "api-gw" {
+  source = ".\\modules\\api-gw"
+  lambda_invoke_arn = module.lambda.invoke_arn
+  api-gw-name = "serverless-app"
+  stage_name = "dev"
+}
