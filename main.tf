@@ -5,16 +5,17 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "python-deployment-backend"
-    key    = "terraform.tfstate"
-    region = "us-east-1"
+    bucket  = "python-deployment-backend"
+    key     = "terraform.tfstate"
+    region  = "us-east-1"
+    encrypt = true
     # dynamodb_table = "terraform_state"
   }
 }
 
 module "ecr" {
-  source             = ".\\modules\\ecr"
-  repo-name          = "serverless-app"
+  source    = ".\\modules\\ecr"
+  repo-name = "serverless-app"
 }
 
 module "lambda" {
@@ -38,8 +39,8 @@ module "dynamodb" {
 }
 
 module "api-gw" {
-  source = ".\\modules\\api-gw"
+  source            = ".\\modules\\api-gw"
   lambda_invoke_arn = module.lambda.invoke_arn
-  api-gw-name = "serverless-app"
-  stage_name = "dev"
+  api-gw-name       = "serverless-app"
+  stage_name        = "dev"
 }
