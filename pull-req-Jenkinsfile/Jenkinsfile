@@ -15,8 +15,18 @@ pipeline{
             steps{
                 bat 'terraform plan'
             }
+        }
+        stage('pull-request details'){
+            steps{
+                bat"""
+                    echo 'pull id:'%ghprbPullId%
+                    echo 'Commit Author:'%ghprbActualCommitAuthor%
+                    echo 'Commit Author Email:'%ghprbActualCommitAuthorEmail%
+                    echo 'Source Branch:'%ghprbSourceBranch%
+                    echo 'Target Branch:'%ghprbTargetBranch%
+                """
+            }
         }     
     }
 }
 
-// connertdvasdc
