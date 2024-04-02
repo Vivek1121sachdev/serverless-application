@@ -19,6 +19,16 @@ resource "aws_api_gateway_method" "health_get_method" {
   authorization = var.authorization
 }
 
+resource "aws_api_gateway_method_response" "method_response_health" {
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id   = aws_api_gateway_resource.resources["health"].id
+  http_method = aws_api_gateway_method.health_get_method.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
 resource "aws_api_gateway_method" "student-methods" {
   for_each = local.methods
 
@@ -28,11 +38,33 @@ resource "aws_api_gateway_method" "student-methods" {
   authorization = var.authorization
 }
 
+resource "aws_api_gateway_method_response" "method_response_student" {
+  for_each = local.methods
+  
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id   = aws_api_gateway_resource.resources["student"].id
+  http_method = each.value
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
+}
+
 resource "aws_api_gateway_method" "students_get_method" {
   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
   resource_id   = aws_api_gateway_resource.resources["students"].id
   http_method   = local.methods.get
   authorization = var.authorization
+}
+
+resource "aws_api_gateway_method_response" "method_response_students" {
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id   = aws_api_gateway_resource.resources["students"].id
+  http_method = aws_api_gateway_method.students_get_method.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = true
+  }
 }
 
 // api gateway resourse method integration
@@ -47,7 +79,7 @@ resource "aws_api_gateway_integration" "health-GET-integration" {
 }
 
 resource "aws_api_gateway_integration" "student-integration" {
-  for_each                = aws_api_gateway_method.student-methods
+  for_each = aws_api_gateway_method.student-methods
 
   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
   resource_id             = aws_api_gateway_resource.resources["student"].id
@@ -57,6 +89,22 @@ resource "aws_api_gateway_integration" "student-integration" {
   uri                     = var.lambda_invoke_arn
 }
 
+resource "aws_api_gateway_integration_response" "integration_response_student" {
+  for_each = aws_api_gateway_method.student-methods
+
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id = aws_api_gateway_resource.resources["student"].id
+  http_method = each.value.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [
+        aws_api_gateway_integration.student-integration,
+        aws_api_gateway_method_response.method_response_student
+        ]
+}
+
 resource "aws_api_gateway_integration" "students-GET-integration" {
   rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
   resource_id             = aws_api_gateway_resource.resources["students"].id
@@ -64,6 +112,19 @@ resource "aws_api_gateway_integration" "students-GET-integration" {
   integration_http_method = var.integration_http_method
   type                    = var.integration_type
   uri                     = var.lambda_invoke_arn
+}
+
+resource "aws_api_gateway_integration_response" "integration_response_students" {
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id = aws_api_gateway_resource.resources["students"].id
+  http_method = aws_api_gateway_method.students_get_method.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+  }
+  depends_on = [aws_api_gateway_integration.students-GET-integration,
+  aws_api_gateway_method_response.method_response_students
+  ]
 }
 
 // api gateway deployment
