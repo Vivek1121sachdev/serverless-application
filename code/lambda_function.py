@@ -5,8 +5,6 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-print('vivek sachdev')
-
 
 dynamodbTableName = 'students-data'
 dynamodb = boto3.resource('dynamodb')

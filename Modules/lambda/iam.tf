@@ -44,7 +44,8 @@ resource "aws_iam_policy" "lambda-policy" {
                 "dynamodb:Scan",
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
-                "dynamodb:UpdateItem"
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem"
 			],
 			"Resource": ["arn:aws:dynamodb:us-east-1:593242862402:table/students-data"]
 		}
