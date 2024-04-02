@@ -20,7 +20,6 @@ module "ecr" {
 
 module "lambda" {
   source = ".\\modules\\lambda"
-
   function_name   = "serverless-app"
   lambda_timeout  = 900
   repository_name = module.ecr.repository_name
