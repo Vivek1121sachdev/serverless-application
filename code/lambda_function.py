@@ -7,7 +7,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-dynamodbTableName = os.environ["dynamodbTableName"]
+dynamodbTableName =  os.environ.get["dynamodbTableName"]
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(dynamodbTableName)
 
