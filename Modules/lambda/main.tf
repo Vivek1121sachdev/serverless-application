@@ -8,7 +8,7 @@ resource "aws_lambda_function" "lambda-function" {
 
   environment {
     variables = {
-      dynamodbTableNam = "students-data"
+      dynamodbTableName = "students-data"
     }
   }
 }
