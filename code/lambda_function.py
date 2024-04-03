@@ -2,6 +2,7 @@ import boto3
 import json
 from custom_encoder import CustomEncoder
 import logging 
+import os
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
