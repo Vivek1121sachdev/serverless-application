@@ -19,7 +19,7 @@ module "ecr" {
 }
 
 module "lambda" {
-  source = ".\\modules\\lambda"
+  source          = ".\\modules\\lambda"
   function_name   = "serverless-app"
   lambda_timeout  = 900
   repository_name = module.ecr.repository_name
@@ -42,4 +42,10 @@ module "api-gw" {
   lambda_invoke_arn = module.lambda.invoke_arn
   api-gw-name       = "serverless-app"
   stage_name        = "dev"
+}
+
+module "s3" {
+  source      = ".\\modules\\s3"
+  bucket_name = "serverless-application-frontend-code"
+  region = "us-east-1"
 }

@@ -21,3 +21,4 @@ variable "execution_arn" {
 variable "path-parts" {
   type = list(string)
 }
+

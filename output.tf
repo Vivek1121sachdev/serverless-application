@@ -9,3 +9,7 @@ output "ecr_uri" {
 output "image_uri" {
   value = module.lambda.image_uri
 }
+
+output "website_url" {
+  value = module.s3.website_url
+}
