@@ -21,7 +21,7 @@ resource "aws_s3_bucket_website_configuration" "static-website" {
 resource "aws_s3_bucket_versioning" "bucker-versioning" {
   bucket = aws_s3_bucket.serverless-application-bucket.id
   versioning_configuration {
-    status = "Disabled"
+    status = "Enabled"
   }
 }
 
