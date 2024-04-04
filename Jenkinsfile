@@ -13,7 +13,8 @@ pipeline{
 
         stage('terraform init'){
             steps{
-                bat "terraform init -upgrade"
+                bat "cd Backend"
+                bat "terraform init -reconfigure"
             }
         }
         
@@ -22,7 +23,9 @@ pipeline{
             steps{
                 script{
                     
-                    bat "terraform apply -target=module.ecr --auto-approve"
+                    bat """
+                    terraform apply -target=module.ecr --auto-approve
+                    """
                     
                     def HashValue = "initial value"
                     bat "git rev-parse  --short=6 HEAD~0 > gitHashValue.txt"
