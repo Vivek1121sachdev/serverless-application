@@ -13,7 +13,7 @@ pipeline{
 
         stage('terraform init'){
             steps{
-                bat "terraform init -upgrade"
+                bat "terraform init -reconfigure"
             }
         }
         
