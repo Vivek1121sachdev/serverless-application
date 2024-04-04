@@ -13,6 +13,7 @@ pipeline{
 
         stage('terraform init'){
             steps{
+                bat "cd Backend"
                 bat "terraform init -reconfigure"
             }
         }
@@ -23,7 +24,6 @@ pipeline{
                 script{
                     
                     bat """
-                    cd Backend
                     terraform apply -target=module.ecr --auto-approve
                     """
                     
