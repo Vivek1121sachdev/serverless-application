@@ -2,13 +2,12 @@ import boto3
 import json
 from custom_encoder import CustomEncoder
 import logging 
+import os
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-print('vivek sachdev')
 
-
-dynamodbTableName = 'students-data'
+dynamodbTableName =  os.environ["dynamodbTableName"]
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(dynamodbTableName)
 
@@ -139,3 +138,15 @@ def buildResponse(statusCode, body=None):
     if body is not None:
         response['body'] = json.dumps(body, cls=CustomEncoder)
     return response
+
+def build_response(status_code, body, allowed_origin="*"):
+    return {
+        'statusCode': status_code,
+        'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': allowed_origin,
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Amz-Date, X-Amz-Security-Token'
+        },
+        'body': json.dumps(body, cls=CustomEncoder)
+    }
