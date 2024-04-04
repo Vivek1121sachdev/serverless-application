@@ -63,6 +63,7 @@ pipeline{
         stage('terraform apply'){
             steps{
                 dir('Bucket'){
+                    bat "dir"
                     bat 'terraform apply --auto-approve'
                 }
             }
