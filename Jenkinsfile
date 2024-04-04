@@ -10,7 +10,11 @@ pipeline{
         ansiColor('xterm')
     }
     stages{
-
+        stage('git checkout'){
+            steps{
+                bat "git checkout"
+            }
+        }
         stage('terraform init'){
             steps{
                 bat "cd Backend"
