@@ -45,9 +45,16 @@ resource "aws_iam_policy" "lambda-policy" {
                 "dynamodb:BatchWriteItem",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem"
+                "dynamodb:DeleteItem",
+                "ssm:Describe*",
+                "ssm:Get*",
+                "ssm:List*"
 			],
-			"Resource": ["arn:aws:dynamodb:us-east-1:593242862402:table/students-data"]
+			"Resource":
+      [
+        "arn:aws:dynamodb:us-east-1:593242862402:table/students-data",
+        "arn:aws:ssm:us-east-1:593242862402:parameter/dbTableName" 
+      ]
 		}
 	]
 }

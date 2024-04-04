@@ -3,10 +3,12 @@ import json
 from custom_encoder import CustomEncoder
 import logging 
 import os
+ssm = boto3.client('ssm')
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-dynamodbTableName =  os.environ["dynamodbTableName"]
+
+dynamodbTableName =  ssm.get_parameter(Name="dbTableName")['Parameter']['Value']
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(dynamodbTableName)
 
