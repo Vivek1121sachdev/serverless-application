@@ -14,7 +14,7 @@ pipeline{
             steps{
                 bat "git checkout -f test"
                 bat "git pull"
-                bat "ls"
+                bat "dir"
             }
         }
         stage('terraform init'){
