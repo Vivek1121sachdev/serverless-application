@@ -9,11 +9,20 @@ pipeline{
         stage('terraform init'){
             steps{
                 dir('Backend'){
-                    bat "cd Backend"
+                    bat "dir"
                     bat "terraform init -reconfigure"
                 }
+                // bat "cd Backend"
             }
-        }       
+        }
+        // stage('terraform init'){
+        //     steps{
+        //         dir('Backend'){
+        //             bat "dir"
+        //             bat "terraform init -reconfigure"
+        //         }
+        //     }
+        // }       
         stage('terraform plan'){
             steps{
                 dir('Backend'){
