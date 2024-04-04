@@ -12,7 +12,7 @@ pipeline{
     stages{
         stage('git checkout'){
             steps{
-                bat "git checkout"
+                bat "git checkout -f test"
             }
         }
         stage('terraform init'){
