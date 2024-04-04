@@ -46,9 +46,8 @@ resource "aws_iam_policy" "lambda-policy" {
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
-                "ssm:Describe*",
-                "ssm:Get*",
-                "ssm:List*"
+                "ssm:GetParameter",
+                "ssm:GetParameters"
 			],
 			"Resource":
       [
