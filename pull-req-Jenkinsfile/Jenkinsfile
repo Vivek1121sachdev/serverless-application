@@ -8,24 +8,30 @@ pipeline{
     stages{
         stage('terraform init'){
             steps{
-                bat "cd Backend"
-                bat "terraform init -reconfigure"
+                dir('Backend'){
+                    bat "cd Backend"
+                    bat "terraform init -reconfigure"
+                }
             }
         }       
         stage('terraform plan'){
             steps{
-                bat 'terraform plan'
+                dir('Backend'){
+                    bat 'terraform plan'
+                }
             }
         }
         stage('pull-request details'){
             steps{
-                bat"""
-                    echo 'pull id:'%ghprbPullId%
-                    echo 'Commit Author:'%ghprbActualCommitAuthor%
-                    echo 'Commit Author Email:'%ghprbActualCommitAuthorEmail%
-                    echo 'Source Branch:'%ghprbSourceBranch%
-                    echo 'Target Branch:'%ghprbTargetBranch%
-                """
+                dir('Backend'){
+                    bat"""
+                        echo 'pull id:'%ghprbPullId%
+                        echo 'Commit Author:'%ghprbActualCommitAuthor%
+                        echo 'Commit Author Email:'%ghprbActualCommitAuthorEmail%
+                        echo 'Source Branch:'%ghprbSourceBranch%
+                        echo 'Target Branch:'%ghprbTargetBranch%
+                    """
+                }
             }
         }     
     }
