@@ -12,15 +12,7 @@ pipeline{
                     bat "terraform init -reconfigure"
                 }
             }
-        }
-        // stage('terraform init'){
-        //     steps{
-        //         dir('Backend'){
-        //             bat "dir"
-        //             bat "terraform init -reconfigure"
-        //         }
-        //     }
-        // }       
+        }   
         stage('terraform plan'){
             steps{
                 dir('Backend'){
