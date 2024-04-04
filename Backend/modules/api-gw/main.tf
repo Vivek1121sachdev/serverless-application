@@ -85,7 +85,9 @@ resource "aws_api_gateway_integration_response" "integration_response_health" {
   http_method = aws_api_gateway_method.health_get_method.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
   depends_on = [
         aws_api_gateway_integration.health-GET-integration,
@@ -112,7 +114,9 @@ resource "aws_api_gateway_integration_response" "integration_response_student" {
   http_method = each.value.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
   depends_on = [
         aws_api_gateway_integration.student-integration,
@@ -135,7 +139,9 @@ resource "aws_api_gateway_integration_response" "integration_response_students" 
   http_method = aws_api_gateway_method.students_get_method.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin" = true
   }
   depends_on = [aws_api_gateway_integration.students-GET-integration,
   aws_api_gateway_method_response.method_response_students
