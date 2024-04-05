@@ -156,7 +156,11 @@ resource "aws_api_gateway_integration_response" "integration_response_students" 
   ]
 }
 
-
+resource "aws_api_gateway_gateway_response" "test" {
+  rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
+  status_code   = "401"
+  response_type = "DEFAULT_4XX"
+}
 
 
 // api gateway deployment
