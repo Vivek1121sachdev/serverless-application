@@ -9,7 +9,7 @@ pipeline{
         stage('terraform init'){
             steps{
                 dir('\\Backend'){
-                    bat "terraform init -reconfigure"
+                    bat "terraform init -upgrade"
                 }
             }
         }   
