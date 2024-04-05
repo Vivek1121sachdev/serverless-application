@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_BASE_URL = "https://fzz89rbqc9.execute-api.us-east-1.amazonaws.com/dev";
+const API_BASE_URL = "https://0o2y3clzdh.execute-api.us-east-1.amazonaws.com/dev";
 
 const App = () => {
   const [students, setStudents] = useState([]);
