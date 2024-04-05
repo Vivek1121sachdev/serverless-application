@@ -110,8 +110,6 @@ resource "aws_api_gateway_integration_response" "integration_response_student" {
   http_method = each.value.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-    # "method.response.header.Access-Control-Allow-Methods" = "'*'",
     "method.response.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
   }
   depends_on = [
