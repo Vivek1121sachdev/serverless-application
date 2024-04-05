@@ -18,7 +18,7 @@ variable "integration_http_method" {
 
 variable "integration_type" {
   type    = string
-  default = "AWS"
+  default = "AWS_PROXY"
 }
 
 variable "stage_name" {
