@@ -80,10 +80,10 @@ resource "aws_api_gateway_integration" "health-GET-integration" {
 
 resource "aws_api_gateway_integration_response" "integration_response_health" {
 
-  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id = aws_api_gateway_resource.resources["health"].id
-  http_method = aws_api_gateway_method.health_get_method.http_method
-  status_code = "200"
+  rest_api_id         = aws_api_gateway_rest_api.serverless-app.id
+  resource_id         = aws_api_gateway_resource.resources["health"].id
+  http_method         = aws_api_gateway_method.health_get_method.http_method
+  status_code         = "200"
   response_parameters = var.integration_response_parameters
   depends_on = [
     aws_api_gateway_integration.health-GET-integration,
@@ -105,13 +105,11 @@ resource "aws_api_gateway_integration" "student-integration" {
 resource "aws_api_gateway_integration_response" "integration_response_student" {
   for_each = aws_api_gateway_method.student-methods
 
-  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id = aws_api_gateway_resource.resources["student"].id
-  http_method = each.value.http_method
-  status_code = "200"
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
-  }
+  rest_api_id         = aws_api_gateway_rest_api.serverless-app.id
+  resource_id         = aws_api_gateway_resource.resources["student"].id
+  http_method         = each.value.http_method
+  status_code         = "200"
+  response_parameters = var.integration_response_parameters
   depends_on = [
     aws_api_gateway_integration.student-integration,
     aws_api_gateway_method_response.method_response_student
