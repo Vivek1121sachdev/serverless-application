@@ -52,7 +52,6 @@ resource "aws_api_gateway_method_response" "method_response_student" {
     "method.response.header.Access-Control-Allow-Origin" = true
     "method.response.header.Access-Control-Allow-Methods" = true
     "method.response.header.Access-Control-Allow-Headers" = true
-    # "method.response.header.Gateway_responses" = true
   }
 }
 
@@ -70,8 +69,8 @@ resource "aws_api_gateway_method_response" "method_response_students" {
   status_code = "200"
   response_parameters = {
     "method.response.header.Access-Control-Allow-Origin" = true
-        "method.response.header.Access-Control-Allow-Methods" = true
-     "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
   }
 }
 
@@ -94,9 +93,9 @@ resource "aws_api_gateway_integration_response" "integration_response_health" {
   status_code = "200"
 
 response_parameters = {
-        "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Methods" = "'GET'",
-        "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'GET'",
+    "method.response.header.Access-Control-Allow-Origin" = "'*'"
     }
 
   depends_on = [
@@ -127,7 +126,6 @@ resource "aws_api_gateway_integration_response" "integration_response_student" {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
     "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PATCH,DELETE'"
     "method.response.header.Access-Control-Allow-Origin"  = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
-    # "method.response.header.Gateway_responses" = "'DEFAULT_4XX, DEFAULT_5XX'"
   }
   depends_on = [
     aws_api_gateway_integration.student-integration,
