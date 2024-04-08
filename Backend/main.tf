@@ -72,3 +72,8 @@ module "s3" {
   bucket_name = "serverless-application-frontend-code"
   region      = "us-east-1"
 }
+
+resource "local_file" "api-gw-invoke-url" {
+    content  = module.api-gw.invoke_url
+    filename = "api-gw-invoke-url.txt"
+}

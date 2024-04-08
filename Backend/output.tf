@@ -2,6 +2,10 @@ output "api-gw-execution-arn" {
   value = module.api-gw.execution_arn
 }
 
+output "api-gw-invoke_url" {
+  value = module.api-gw.invoke_url
+}
+
 output "ecr_uri" {
   value = module.ecr.repository_url
 }
