@@ -3,6 +3,10 @@ provider "aws" {
   # profile = "vivek"
 }
 
+#------------#
+# S3 Backend #
+#------------#
+
 terraform {
   backend "s3" {
     bucket  = "python-deployment-backend"
@@ -16,6 +20,7 @@ terraform {
 #------------#
 # ECR Module #
 #------------#
+
 module "ecr" {
   source    = ".\\modules\\ecr"
   repo-name = "serverless-app"
@@ -24,6 +29,7 @@ module "ecr" {
 #---------------#
 # Lambda Module #
 #---------------#
+
 module "lambda" {
   source          = ".\\modules\\lambda"
   function_name   = "serverless-app"
@@ -37,6 +43,7 @@ module "lambda" {
 #-----------------#
 # DynamoDb Module #
 #-----------------#
+
 module "dynamodb" {
   source         = ".\\modules\\dynamoDB"
   table-name     = "students-data"
@@ -45,12 +52,20 @@ module "dynamodb" {
   attribute-type = "S"
 }
 
+#--------------------#
+# API Gateway Module #
+#--------------------#
+
 module "api-gw" {
   source            = ".\\modules\\api-gw"
   lambda_invoke_arn = module.lambda.invoke_arn
   api-gw-name       = "serverless-app"
   stage_name        = "dev"
 }
+
+#------------#
+# S3 Modulue #
+#------------#
 
 module "s3" {
   source      = ".\\modules\\s3"
