@@ -50,9 +50,9 @@ resource "aws_api_gateway_method_response" "method_response_student" {
   status_code = "200"
   response_parameters = {
     "method.response.header.Access-Control-Allow-Origin" = true
-        "method.response.header.Access-Control-Allow-Methods" = true
-     "method.response.header.Access-Control-Allow-Headers" = true
-     "method.response.header.Gateway_responses" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+    # "method.response.header.Gateway_responses" = true
   }
 }
 
