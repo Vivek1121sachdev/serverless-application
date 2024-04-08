@@ -14,7 +14,7 @@ pipeline{
             steps{
                 dir('Backend'){
                     bat "dir"
-                    bat "terraform init -reconfigure"
+                    bat "terraform init -upgrade"
                 }
                 // bat "cd Backend"
             }
@@ -65,4 +65,4 @@ pipeline{
 }
 
 
-
+//t

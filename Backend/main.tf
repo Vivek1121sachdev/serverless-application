@@ -47,5 +47,5 @@ module "api-gw" {
 module "s3" {
   source      = ".\\modules\\s3"
   bucket_name = "serverless-application-frontend-code"
-  region = "us-east-1"
+  region      = "us-east-1"
 }

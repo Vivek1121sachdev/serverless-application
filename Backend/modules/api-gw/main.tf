@@ -8,6 +8,7 @@ resource "aws_api_gateway_resource" "resources" {
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
   parent_id   = aws_api_gateway_rest_api.serverless-app.root_resource_id
   path_part   = each.value
+  
 }
 
 // api gateway methods
@@ -21,11 +22,13 @@ resource "aws_api_gateway_method" "health_get_method" {
 
 resource "aws_api_gateway_method_response" "method_response_health" {
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id   = aws_api_gateway_resource.resources["health"].id
+  resource_id = aws_api_gateway_resource.resources["health"].id
   http_method = aws_api_gateway_method.health_get_method.http_method
   status_code = "200"
   response_parameters = {
     "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+     "method.response.header.Access-Control-Allow-Headers" = true,
   }
 }
 
@@ -40,13 +43,16 @@ resource "aws_api_gateway_method" "student-methods" {
 
 resource "aws_api_gateway_method_response" "method_response_student" {
   for_each = local.methods
-  
+
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id   = aws_api_gateway_resource.resources["student"].id
+  resource_id = aws_api_gateway_resource.resources["student"].id
   http_method = each.value
   status_code = "200"
   response_parameters = {
     "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+    # "method.response.header.Gateway_responses" = true
   }
 }
 
@@ -59,11 +65,13 @@ resource "aws_api_gateway_method" "students_get_method" {
 
 resource "aws_api_gateway_method_response" "method_response_students" {
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id   = aws_api_gateway_resource.resources["students"].id
+  resource_id = aws_api_gateway_resource.resources["students"].id
   http_method = aws_api_gateway_method.students_get_method.http_method
   status_code = "200"
   response_parameters = {
     "method.response.header.Access-Control-Allow-Origin" = true
+        "method.response.header.Access-Control-Allow-Methods" = true
+     "method.response.header.Access-Control-Allow-Headers" = true
   }
 }
 
@@ -84,13 +92,17 @@ resource "aws_api_gateway_integration_response" "integration_response_health" {
   resource_id = aws_api_gateway_resource.resources["health"].id
   http_method = aws_api_gateway_method.health_get_method.http_method
   status_code = "200"
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
-  }
+
+response_parameters = {
+        "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Methods" = "'GET'",
+        "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    }
+
   depends_on = [
-        aws_api_gateway_integration.health-GET-integration,
-        aws_api_gateway_method_response.method_response_health
-        ]
+    aws_api_gateway_integration.health-GET-integration,
+    aws_api_gateway_method_response.method_response_health
+  ]
 }
 
 resource "aws_api_gateway_integration" "student-integration" {
@@ -112,12 +124,15 @@ resource "aws_api_gateway_integration_response" "integration_response_student" {
   http_method = each.value.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PATCH,DELETE'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
+    # "method.response.header.Gateway_responses" = "'DEFAULT_4XX, DEFAULT_5XX'"
   }
   depends_on = [
-        aws_api_gateway_integration.student-integration,
-        aws_api_gateway_method_response.method_response_student
-        ]
+    aws_api_gateway_integration.student-integration,
+    aws_api_gateway_method_response.method_response_student
+  ]
 }
 
 resource "aws_api_gateway_integration" "students-GET-integration" {
@@ -135,12 +150,41 @@ resource "aws_api_gateway_integration_response" "integration_response_students" 
   http_method = aws_api_gateway_method.students_get_method.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,GET'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
   }
   depends_on = [aws_api_gateway_integration.students-GET-integration,
-  aws_api_gateway_method_response.method_response_students
+    aws_api_gateway_method_response.method_response_students
   ]
 }
+
+resource "aws_api_gateway_gateway_response" "test" {
+  rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
+  response_type = "DEFAULT_4XX"
+
+  response_templates = {
+    "application/json" = "{'message':$context.error.messageString}"
+  }
+
+  response_parameters = {
+    "gatewayresponse.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'" 
+  }
+}
+
+resource "aws_api_gateway_gateway_response" "test2" {
+  rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
+  response_type = "DEFAULT_5XX"
+
+  response_templates = {
+    "application/json" = "{'message':$context.error.messageString}"
+  }
+
+  response_parameters = {
+    "gatewayresponse.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'" 
+  }
+}
+
 
 // api gateway deployment
 
