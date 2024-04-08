@@ -5,14 +5,8 @@ resource "aws_lambda_function" "lambda-function" {
   package_type  = "Image"
 
   role = aws_iam_role.lambda-role.arn
-
-  # environment {
-  #   variables = {
-  #     dynamodbTableName = "students-data"
-  #   }
-  # }
 }
-
+//testing comment
 resource "aws_ssm_parameter" "ssm_parameter" {
   name  = "dbTableName"
   type  = "String"
