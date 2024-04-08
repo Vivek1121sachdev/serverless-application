@@ -13,6 +13,9 @@ terraform {
   }
 }
 
+#------------#
+# ECR Module #
+#------------#
 module "ecr" {
   source    = ".\\modules\\ecr"
   repo-name = "serverless-app"
