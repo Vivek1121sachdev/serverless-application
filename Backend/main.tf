@@ -21,6 +21,9 @@ module "ecr" {
   repo-name = "serverless-app"
 }
 
+#---------------#
+# Lambda Module #
+#---------------#
 module "lambda" {
   source          = ".\\modules\\lambda"
   function_name   = "serverless-app"
