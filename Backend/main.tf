@@ -34,7 +34,9 @@ module "lambda" {
   path-parts      = compact(["health", "student", "students", ""])
 }
 
-
+#-----------------#
+# DynamoDb Module #
+#-----------------#
 module "dynamodb" {
   source         = ".\\modules\\dynamoDB"
   table-name     = "students-data"
