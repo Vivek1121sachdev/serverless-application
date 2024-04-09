@@ -61,7 +61,7 @@ pipeline{
                         // bat 'terraform apply --auto-approve'
                         def api_url = bat(returnStdout: true, script: "terraform output api-gw-invoke_url")
                         env.API_BASE_URL = api_url
-                        bat 'echo %API_BASE_URL%'
+                        bat "echo %API_BASE_URL%"
                     }
                 }
             }
