@@ -10,7 +10,6 @@ const App = () => {
     studentId: "",
     name: "",
     email: "",
-    // Add other fields as needed
   });
 
   useEffect(() => {
