@@ -64,6 +64,8 @@ pipeline{
                         bat "terraform output api-gw-invoke_url > api_url.txt"
                         api_url = readFile(file:'api_url.txt').trim()
                         bat "echo ${api_url}"
+                        env.API_INVOKE_URL="${api_url}"
+                        bat "echo %API_INVOKE_URL%"
                     }
                 }
             }
