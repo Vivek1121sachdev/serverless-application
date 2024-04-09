@@ -6,9 +6,7 @@ locals {
   }
   methods = {
     get    = "GET",
-    post   = "POST",
-    patch  = "PATCH",
-    delete = "DELETE"
+    any    = "ANY"
   }
 }
 
