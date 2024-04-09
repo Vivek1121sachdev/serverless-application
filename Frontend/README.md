@@ -1,1 +1,0 @@
-# serverless-application-frontend

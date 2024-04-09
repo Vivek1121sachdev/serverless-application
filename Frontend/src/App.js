@@ -20,7 +20,7 @@ const App = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/dev/students`);
+      const response = await axios.get(`${API_BASE_URL}dev/students`);
       console.log("response-fetchStudents",response)
       setStudents(response.data.students);
     } catch (error) {
@@ -30,7 +30,7 @@ const App = () => {
 
   const addStudent = async () => {
     try {
-      await axios.post(`${API_BASE_URL}/dev/student`, newStudent);
+      await axios.post(`${API_BASE_URL}dev/student`, newStudent);
       fetchStudents(); // Refresh the list after adding
     } catch (error) {
       console.error("Error adding student:", error);
@@ -40,7 +40,7 @@ const App = () => {
   const deleteStudent = async (studentId) => {
     try {
       const payload = { studentId }; // Construct the request payload
-      const response = await axios.delete(`${API_BASE_URL}/dev/student`, {
+      const response = await axios.delete(`${API_BASE_URL}dev/student`, {
         data: payload,
       });
       console.log("Response from delete:", response.data); // Log the response body
