@@ -30,7 +30,7 @@ pipeline{
         //                     terraform apply -target=module.ecr --auto-approve
         //                 """
                     
-        //                 def HashValue = "initial value"
+                        // def HashValue = "initial value"
         //                 bat "git rev-parse  --short=6 HEAD~0 > gitHashValue.txt"
         //                 HashValue = readFile(file:'gitHashValue.txt').trim()
                     
@@ -59,10 +59,11 @@ pipeline{
                     dir('Backend'){
                         bat "dir"
                         // bat 'terraform apply --auto-approve'
-                        def api_url = bat(returnStdout: true, script: "terraform output api-gw-invoke_url")
+
+                        def api_url = "initial value"
+                        bat "terraform output api-gw-invoke_url > api_url.txt"
+                        api_url = readFile(file:'api_url.txt').trim()
                         bat "echo ${api_url}"
-                        env.API_BASE_URL = "${api_url}"
-                        bat "echo %API_BASE_URL%"
                     }
                 }
             }
