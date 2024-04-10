@@ -28,7 +28,6 @@ resource "aws_api_gateway_method_response" "method_response_health" {
   http_method = aws_api_gateway_method.health_get_method.http_method
   status_code = 200
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Credentials" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true
     "method.response.header.Access-Control-Allow-Methods" = true
     "method.response.header.Access-Control-Allow-Headers" = true,
@@ -56,7 +55,6 @@ resource "aws_api_gateway_integration_response" "integration_response_health" {
   status_code = 200
 
   response_parameters = { 
-    "method.response.header.Access-Control-Allow-Credentials" = "'true'"
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
     "method.response.header.Access-Control-Allow-Methods" = "'GET'",
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
@@ -108,22 +106,22 @@ resource "aws_api_gateway_integration" "student-integration" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "integration_response_student" {
+# resource "aws_api_gateway_integration_response" "integration_response_student" {
 
-  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id = aws_api_gateway_resource.resources["student"].id
-  http_method = aws_api_gateway_method.student-method.http_method
-  status_code = 200
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-    "method.response.header.Access-Control-Allow-Methods" = "'DELETE,POST,GET,PATCH,OPTIONS'"
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-  }
-  depends_on = [
-    aws_api_gateway_integration.student-integration,
-    aws_api_gateway_method_response.method_response_student
-  ]
-}
+#   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+#   resource_id = aws_api_gateway_resource.resources["student"].id
+#   http_method = aws_api_gateway_method.student-method.http_method
+#   status_code = 200
+#   response_parameters = {
+#     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+#     "method.response.header.Access-Control-Allow-Methods" = "'DELETE,POST,GET,PATCH,OPTIONS'"
+#     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+#   }
+#   depends_on = [
+#     aws_api_gateway_integration.student-integration,
+#     aws_api_gateway_method_response.method_response_student
+#   ]
+# }
 
 #####################
 # Student - Option  #
@@ -174,7 +172,7 @@ resource "aws_api_gateway_integration_response" "integration_response_student-op
   status_code = 200
   response_parameters = {
         "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT'",
+        "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT,DELETE'",
         "method.response.header.Access-Control-Allow-Origin" = "'*'"
     }
   depends_on = [
@@ -201,7 +199,6 @@ resource "aws_api_gateway_method_response" "method_response_students" {
   http_method = aws_api_gateway_method.students_get_method.http_method
   status_code = 200
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Credentials" = true,
     "method.response.header.Access-Control-Allow-Origin"  = true
     "method.response.header.Access-Control-Allow-Methods" = true
     "method.response.header.Access-Control-Allow-Headers" = true
@@ -227,7 +224,6 @@ resource "aws_api_gateway_integration_response" "integration_response_students" 
   http_method = aws_api_gateway_method.students_get_method.http_method
   status_code = 200
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Credentials" = "'true'"
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
     "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,GET'"
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
