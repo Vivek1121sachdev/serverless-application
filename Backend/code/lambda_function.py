@@ -128,19 +128,17 @@ def deleteStudent(studentId):
     except:
         logger.exception('Log it here for now')
 
-def buildResponse(statusCode, body=None):
-    response = {
-        'statusCode': statusCode,
-        'headers': {
-            'ContentType': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            # 'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS,ANY',
-            # 'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Amz-Date, X-Amz-Security-Token'
-        }
-    }
-    if body is not None:
-        response['body'] = json.dumps(body, cls=CustomEncoder)
-    return response
+# def buildResponse(statusCode, body=None):
+#     response = {
+#         'statusCode': statusCode,
+#         'headers': {
+#             'ContentType': 'application/json',
+#             'Access-Control-Allow-Origin': '*',
+#         }
+#     }
+#     if body is not None:
+#         response['body'] = json.dumps(body, cls=CustomEncoder)
+#     return response
 
 def build_response(status_code, body, allowed_origin="*"):
     return {
