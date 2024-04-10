@@ -8,7 +8,7 @@ resource "aws_api_gateway_resource" "resources" {
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
   parent_id   = aws_api_gateway_rest_api.serverless-app.root_resource_id
   path_part   = each.value
-  
+
 }
 
 // api gateway methods
@@ -26,9 +26,9 @@ resource "aws_api_gateway_method_response" "method_response_health" {
   http_method = aws_api_gateway_method.health_get_method.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
     "method.response.header.Access-Control-Allow-Methods" = true
-     "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Headers" = true,
   }
 }
 
@@ -36,7 +36,15 @@ resource "aws_api_gateway_method" "student-method" {
 
   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
   resource_id   = aws_api_gateway_resource.resources["student"].id
-  http_method   = "ANY"
+  http_method   = local.methods.any
+  authorization = var.authorization
+}
+
+resource "aws_api_gateway_method" "student-method-option" {
+
+  rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
+  resource_id   = aws_api_gateway_resource.resources["student"].id
+  http_method   = "OPTIONS"
   authorization = var.authorization
 }
 
@@ -47,7 +55,20 @@ resource "aws_api_gateway_method_response" "method_response_student" {
   http_method = aws_api_gateway_method.student-method.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+  }
+}
+
+resource "aws_api_gateway_method_response" "method_response_student-option" {
+
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id = aws_api_gateway_resource.resources["student"].id
+  http_method = aws_api_gateway_method.student-method-option.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Origin"  = true
     "method.response.header.Access-Control-Allow-Methods" = true
     "method.response.header.Access-Control-Allow-Headers" = true
   }
@@ -66,7 +87,7 @@ resource "aws_api_gateway_method_response" "method_response_students" {
   http_method = aws_api_gateway_method.students_get_method.http_method
   status_code = "200"
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
     "method.response.header.Access-Control-Allow-Methods" = true
     "method.response.header.Access-Control-Allow-Headers" = true
   }
@@ -90,11 +111,11 @@ resource "aws_api_gateway_integration_response" "integration_response_health" {
   http_method = aws_api_gateway_method.health_get_method.http_method
   status_code = "200"
 
-response_parameters = {
+  response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
     "method.response.header.Access-Control-Allow-Methods" = "'GET'",
-    "method.response.header.Access-Control-Allow-Origin" = "'*'"
-    }
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
 
   depends_on = [
     aws_api_gateway_integration.health-GET-integration,
@@ -112,20 +133,47 @@ resource "aws_api_gateway_integration" "student-integration" {
   uri                     = var.lambda_invoke_arn
 }
 
+resource "aws_api_gateway_integration" "student-integration-option" {
+
+  rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
+  resource_id             = aws_api_gateway_resource.resources["student"].id
+  http_method             = aws_api_gateway_method.student-method-option.http_method
+  integration_http_method = var.integration_http_method
+  type                    = var.integration_type
+  uri                     = var.lambda_invoke_arn
+}
+
 resource "aws_api_gateway_integration_response" "integration_response_student" {
 
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
   resource_id = aws_api_gateway_resource.resources["student"].id
-  http_method = "ANY"
+  http_method = aws_api_gateway_method.student-method.http_method
   status_code = "200"
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-    "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PATCH,DELETE'"
+    "method.response.header.Access-Control-Allow-Methods" = "'*'"
     "method.response.header.Access-Control-Allow-Origin"  = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
   }
   depends_on = [
     aws_api_gateway_integration.student-integration,
     aws_api_gateway_method_response.method_response_student
+  ]
+}
+
+resource "aws_api_gateway_integration_response" "integration_response_student-option" {
+
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id = aws_api_gateway_resource.resources["student"].id
+  http_method = aws_api_gateway_method.student-method-option.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'*'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
+  }
+  depends_on = [
+    aws_api_gateway_integration.student-integration-option,
+    aws_api_gateway_method_response.method_response_student-option
   ]
 }
 
@@ -148,7 +196,8 @@ resource "aws_api_gateway_integration_response" "integration_response_students" 
     "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,GET'"
     "method.response.header.Access-Control-Allow-Origin"  = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
   }
-  depends_on = [aws_api_gateway_integration.students-GET-integration,
+  depends_on = [
+    aws_api_gateway_integration.students-GET-integration,
     aws_api_gateway_method_response.method_response_students
   ]
 }
@@ -162,7 +211,7 @@ resource "aws_api_gateway_gateway_response" "test" {
   }
 
   response_parameters = {
-    "gatewayresponse.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'" 
+    "gatewayresponse.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
   }
 }
 
@@ -175,7 +224,7 @@ resource "aws_api_gateway_gateway_response" "test2" {
   }
 
   response_parameters = {
-    "gatewayresponse.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'" 
+    "gatewayresponse.header.Access-Control-Allow-Origin" = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
   }
 }
 
@@ -194,9 +243,11 @@ resource "aws_api_gateway_deployment" "api-gw-deployment" {
 
     aws_api_gateway_method.health_get_method,
     aws_api_gateway_method.student-method,
+    aws_api_gateway_method.student-method-option,
     aws_api_gateway_method.students_get_method,
     aws_api_gateway_integration.health-GET-integration,
     aws_api_gateway_integration.student-integration,
+    aws_api_gateway_integration.student-integration-option,
     aws_api_gateway_integration.students-GET-integration
   ]
 }

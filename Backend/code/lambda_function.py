@@ -133,7 +133,9 @@ def buildResponse(statusCode, body=None):
         'statusCode': statusCode,
         'headers': {
             'ContentType': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Amz-Date, X-Amz-Security-Token'
         }
     }
     if body is not None:
