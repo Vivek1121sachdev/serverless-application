@@ -30,7 +30,8 @@ const App = () => {
 
   const addStudent = async () => {
     try {
-      await axios.post(`${API_BASE_URL}dev/student`, newStudent);
+      await axios.post(`${process.env.REACT_APP_API_INVOKE_URL}dev/student`, newStudent);
+      console.log("newstudent",newStudent)
       fetchStudents(); // Refresh the list after adding
     } catch (error) {
       console.error("Error adding student:", error);
@@ -40,7 +41,7 @@ const App = () => {
   const deleteStudent = async (studentId) => {
     try {
       const payload = { studentId }; // Construct the request payload
-      const response = await axios.delete(`${API_BASE_URL}dev/student`, {
+      const response = await axios.delete(`${process.env.REACT_APP_API_INVOKE_URL}dev/student`, {
         data: payload,
       });
       console.log("Response from delete:", response.data); // Log the response body
