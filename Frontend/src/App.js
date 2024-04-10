@@ -20,7 +20,7 @@ const App = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}dev/students`);
+      const response = await axios.get(`${process.env.REACT_APP_API_INVOKE_URL}dev/students`);
       console.log("response-fetchStudents",response)
       setStudents(response.data.students);
     } catch (error) {
@@ -54,6 +54,7 @@ const App = () => {
 
   return (
     <div>
+      <h3>{API_BASE_URL}</h3>
       <h1>Students</h1>
       <ul>
         {students.map((student) => (
