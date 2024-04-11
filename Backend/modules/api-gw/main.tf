@@ -28,9 +28,9 @@ resource "aws_api_gateway_method_response" "method_response_health" {
   http_method = aws_api_gateway_method.health_get_method.http_method
   status_code = 200
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Origin"  = true
+~    "method.response.header.Access-Control-Allow-Origin"  = true
     "method.response.header.Access-Control-Allow-Methods" = true
-    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Headers" = true
   }
 }
 
@@ -106,22 +106,6 @@ resource "aws_api_gateway_integration" "student-integration" {
   }
 }
 
-# resource "aws_api_gateway_integration_response" "integration_response_student" {
-
-#   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-#   resource_id = aws_api_gateway_resource.resources["student"].id
-#   http_method = aws_api_gateway_method.student-method.http_method
-#   status_code = 200
-#   response_parameters = {
-#     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-#     "method.response.header.Access-Control-Allow-Methods" = "'DELETE,POST,GET,PATCH,OPTIONS'"
-#     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-#   }
-#   depends_on = [
-#     aws_api_gateway_integration.student-integration,
-#     aws_api_gateway_method_response.method_response_student
-#   ]
-# }
 
 #####################
 # Student - Option  #
@@ -235,7 +219,9 @@ resource "aws_api_gateway_integration_response" "integration_response_students" 
 }
 
 
-
+###################
+# API-GW Response #
+###################
 
 resource "aws_api_gateway_gateway_response" "test" {
   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
@@ -263,11 +249,9 @@ resource "aws_api_gateway_gateway_response" "test2" {
   }
 }
 
-
-
-
-
-// api gateway deployment
+#####################
+# API-GW Deployment #
+#####################
 
 resource "aws_api_gateway_deployment" "api-gw-deployment" {
   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
@@ -290,7 +274,9 @@ resource "aws_api_gateway_deployment" "api-gw-deployment" {
   ]
 }
 
-// api gateway deployment stage
+###########################
+# API-GW Deployment Stage #
+###########################
 
 resource "aws_api_gateway_stage" "deployment-stage" {
   deployment_id = aws_api_gateway_deployment.api-gw-deployment.id
