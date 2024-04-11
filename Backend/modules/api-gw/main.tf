@@ -2,6 +2,10 @@ resource "aws_api_gateway_rest_api" "serverless-app" {
   name = var.api-gw-name
 }
 
+#############
+# Resources #
+#############
+
 resource "aws_api_gateway_resource" "resources" {
   for_each = local.path-parts
 
@@ -47,24 +51,24 @@ resource "aws_api_gateway_integration" "health-GET-integration" {
   }
 }
 
-resource "aws_api_gateway_integration_response" "integration_response_health" {
+# resource "aws_api_gateway_integration_response" "integration_response_health" {
 
-  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id = aws_api_gateway_resource.resources["health"].id
-  http_method = aws_api_gateway_method.health_get_method.http_method
-  status_code = 200
+#   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+#   resource_id = aws_api_gateway_resource.resources["health"].id
+#   http_method = aws_api_gateway_method.health_get_method.http_method
+#   status_code = 200
 
-  response_parameters = { 
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-    "method.response.header.Access-Control-Allow-Methods" = "'GET'",
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-  }
+#   response_parameters = { 
+#     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+#     "method.response.header.Access-Control-Allow-Methods" = "'GET'",
+#     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+#   }
 
-  depends_on = [
-    aws_api_gateway_integration.health-GET-integration,
-    aws_api_gateway_method_response.method_response_health
-  ]
-}
+#   depends_on = [
+#     aws_api_gateway_integration.health-GET-integration,
+#     aws_api_gateway_method_response.method_response_health
+#   ]
+# }
 
 
 ###########
@@ -125,6 +129,7 @@ resource "aws_api_gateway_method_response" "method_response_student-option" {
   resource_id = aws_api_gateway_resource.resources["student"].id
   http_method = aws_api_gateway_method.student-method-option.http_method
   status_code = 200
+
   response_models = {
     "application/json" = "Empty"
   }
@@ -202,21 +207,21 @@ request_templates = {
   }
 }
 
-resource "aws_api_gateway_integration_response" "integration_response_students" {
-  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id = aws_api_gateway_resource.resources["students"].id
-  http_method = aws_api_gateway_method.students_get_method.http_method
-  status_code = 200
-  response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-    "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,GET'"
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-  }
-  depends_on = [
-    aws_api_gateway_integration.students-GET-integration,
-    aws_api_gateway_method_response.method_response_students
-  ]
-}
+# resource "aws_api_gateway_integration_response" "integration_response_students" {
+#   rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+#   resource_id = aws_api_gateway_resource.resources["students"].id
+#   http_method = aws_api_gateway_method.students_get_method.http_method
+#   status_code = 200
+#   response_parameters = {
+#     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+#     "method.response.header.Access-Control-Allow-Methods" = "'OPTIONS,GET'"
+#     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+#   }
+#   depends_on = [
+#     aws_api_gateway_integration.students-GET-integration,
+#     aws_api_gateway_method_response.method_response_students
+#   ]
+# }
 
 
 ###################
