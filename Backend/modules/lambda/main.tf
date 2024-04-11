@@ -6,9 +6,4 @@ resource "aws_lambda_function" "lambda-function" {
 
   role = aws_iam_role.lambda-role.arn
 }
-//testing comment
-resource "aws_ssm_parameter" "ssm_parameter" {
-  name  = "dbTableName"
-  type  = "String"
-  value = "students-data"
-}
+

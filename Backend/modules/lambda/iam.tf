@@ -17,11 +17,40 @@ resource "aws_iam_role" "lambda-role" {
 EOF
 }
 
-resource "aws_iam_policy" "lambda-policy" {
+# resource "aws_iam_policy" "lambda-log-policy" {
 
-  name        = "lambda-policy"
+  # name        = "lambda-log-policy"
+  # path        = "/"
+  # description = "AWS IAM log Policy for managing aws lambda role"
+  # policy      = <<EOF
+  # {
+	# "Version": "2012-10-17",
+	# "Statement": [
+	# 	{
+	# 		"Sid": "Statement1",
+	# 		"Effect": "Allow",
+	# 		"Action": [
+	# 			"logs:CreateLogGroup",
+	# 			"logs:CreateLogStream",
+	# 			"logs:DescribeLogGroups",
+	# 			"logs:DescribeLogStreams",
+	# 			"logs:PutLogEvents",
+	# 			"logs:GetLogEvents",
+	# 			"logs:FilterLogEvents"
+	# 		],
+	# 		"Resource": ["arn:aws:lambda:us-east-1:593242862402:function:serverless-app"]
+	# 	  }
+	#   ]
+  # }
+  # EOF
+  # }
+
+
+resource "aws_iam_policy" "lambda-dynamodb-policy" {
+
+  name        = "lambda-dynamodb-policy"
   path        = "/"
-  description = "AWS IAM Policy for managing aws lambda role"
+  description = "AWS IAM dynamodb Policy for managing aws lambda role"
   policy      = <<EOF
 {
 	"Version": "2012-10-17",
@@ -29,31 +58,28 @@ resource "aws_iam_policy" "lambda-policy" {
 		{
 			"Sid": "Statement1",
 			"Effect": "Allow",
-			"Action": [
-				"logs:CreateLogGroup",
-				"logs:CreateLogStream",
-				"logs:DescribeLogGroups",
-				"logs:DescribeLogStreams",
-				"logs:PutLogEvents",
-				"logs:GetLogEvents",
-				"logs:FilterLogEvents",
+			"Action": ["dynamodb:BatchGetItem","dynamodb:GetItem","dynamodb:Query","dynamodb:Scan","dynamodb:BatchWriteItem","dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:DeleteItem"],
+			"Resource": ["${var.dynamodb-arn}"]
+		}
+	]
+}
+EOF
+}
 
-				"dynamodb:BatchGetItem",
-                "dynamodb:GetItem",
-                "dynamodb:Query",
-                "dynamodb:Scan",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-                "ssm:GetParameter",
-                "ssm:GetParameters"
-			],
-			"Resource":
-      [
-        "arn:aws:dynamodb:us-east-1:593242862402:table/students-data",
-        "arn:aws:ssm:us-east-1:593242862402:parameter/dbTableName" 
-      ]
+resource "aws_iam_policy" "lambda-ssm-policy" {
+
+  name        = "lambda-ssm-policy"
+  path        = "/"
+  description = "AWS IAM SSM Policy for managing aws lambda role"
+  policy      = <<EOF
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement2",
+			"Effect": "Allow",
+			"Action": ["ssm:GetParameter"],
+			"Resource": ["${var.ssm-parameter-arn}"]
 		}
 	]
 }
@@ -61,10 +87,12 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "policy-attachment" {
-  for_each = local.policy_arn
+for_each = local.policy_arns
 
   role       = aws_iam_role.lambda-role.name
   policy_arn = each.value
+
+  depends_on = [ aws_iam_policy.lambda-dynamodb-policy, aws_iam_policy.lambda-ssm-policy ]
 }
 
 resource "aws_lambda_permission" "lambda_permission_all_resources" {
