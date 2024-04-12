@@ -171,7 +171,29 @@ resource "aws_api_gateway_stage" "deployment-stage" {
 
   access_log_settings {
     destination_arn = "${aws_cloudwatch_log_group.api-gw-log-group.arn}"
-    format          = "$context.requestId,$context.extendedRequestId"
+    format          = jsonencode({
+      requestId     = "$context.requestId"
+      ip            = "$context.identity.sourceIp"
+      httpMethod    = "$context.httpMethod"
+      path          = "$context.path"
+      status        = "$context.status"
+      responseLength = "$context.responseLength"
+      domainName    = "$context.domainName"
+    })
+  }
+
+    depends_on = [aws_cloudwatch_log_group.api-gw-log-group]
+}
+
+resource "aws_api_gateway_method_settings" "enable_logging" {
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  stage_name  = aws_api_gateway_stage.deployment-stage.stage_name
+  method_path = "*/*"
+
+  settings {
+    logging_level      = "INFO"
+    metrics_enabled    = true
+    data_trace_enabled = true
   }
 }
 
