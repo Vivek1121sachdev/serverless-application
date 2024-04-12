@@ -12,7 +12,6 @@ resource "aws_lambda_function" "lambda-function" {
   logging_config {
     log_format = "Text"
     log_group = aws_cloudwatch_log_group.lambda-log-group.name
-    
   }
 
   depends_on = [

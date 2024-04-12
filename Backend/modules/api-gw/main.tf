@@ -156,12 +156,22 @@ resource "aws_api_gateway_deployment" "api-gw-deployment" {
 # API-GW Deployment Stage #
 ###########################
 
+resource "aws_cloudwatch_log_group" "api-gw-log-group" {
+  name = "API-GW-Serverless-app"
+}
+
+resource "aws_api_gateway_account" "api-gw-account" {
+  cloudwatch_role_arn = aws_iam_role.api-gw-role.arn
+}
+
 resource "aws_api_gateway_stage" "deployment-stage" {
   deployment_id = aws_api_gateway_deployment.api-gw-deployment.id
   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
   stage_name    = var.stage_name
+
+  access_log_settings {
+    destination_arn = "${aws_cloudwatch_log_group.api-gw-log-group.arn}"
+    format          = "*"
+  }
 }
 
-resource "aws_cloudwatch_log_group" "api-gw-log-group" {
-  name = "API-GW-Serverless-app"
-}

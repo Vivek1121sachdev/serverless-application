@@ -77,12 +77,15 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "policy-attachment" {
-for_each = local.policy_arns
+  for_each = local.policy_arns
 
   role       = aws_iam_role.lambda-role.name
   policy_arn = each.value
 
-  depends_on = [ aws_iam_policy.lambda-dynamodb-policy, aws_iam_policy.lambda-ssm-policy ]
+  depends_on = [
+    aws_iam_policy.lambda-dynamodb-policy,
+    aws_iam_policy.lambda-ssm-policy,
+  aws_iam_policy.lambda-log-policy]
 }
 
 resource "aws_lambda_permission" "lambda_permission_all_resources" {
