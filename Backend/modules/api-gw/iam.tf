@@ -91,23 +91,25 @@ resource "aws_iam_role_policy" "apigw-log-policy" {
   name = "apigw-log-policy"
   role = aws_iam_role.api-gw-role.id
 
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-        	"logs:CreateLogGroup",
-			"logs:CreateLogStream",
-			"logs:DescribeLogGroups",
-			"logs:DescribeLogStreams",
-			"logs:PutLogEvents",
-			"logs:GetLogEvents",
-			"logs:FilterLogEvents"
-        ]
-        Effect   = "Allow"
-        Resource = ["${aws_cloudwatch_log_group.api-gw-log-group.arn}"]
-      },
-    ]
-  })
+  policy = <<EOF
+{
+	"Version" : "2012-10-17",
+  "Statement" : [
+    {
+      "Effect" : "Allow",
+      "Action" : [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams",
+        "logs:PutLogEvents",
+        "logs:GetLogEvents",
+        "logs:FilterLogEvents"
+      ],
+      "Resource" : "${aws_cloudwatch_log_group.api-gw-log-group.arn}"
+    }
+  ]
+}
+EOF
 }
 

@@ -161,7 +161,7 @@ resource "aws_cloudwatch_log_group" "api-gw-log-group" {
 }
 
 resource "aws_api_gateway_account" "api-gw-account" {
-  cloudwatch_role_arn = aws_iam_role.api-gw-role.arn
+  cloudwatch_role_arn = "${aws_iam_role.api-gw-role.arn}"
 }
 
 resource "aws_api_gateway_stage" "deployment-stage" {
@@ -171,7 +171,7 @@ resource "aws_api_gateway_stage" "deployment-stage" {
 
   access_log_settings {
     destination_arn = "${aws_cloudwatch_log_group.api-gw-log-group.arn}"
-    format          = "*"
+    format          = "$context.requestId,$context.extendedRequestId"
   }
 }
 
