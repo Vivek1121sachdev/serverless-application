@@ -30,16 +30,12 @@ resource "aws_iam_policy" "apigw-policy" {
 			"Sid": "Statement1",
 			"Effect": "Allow",
 			"Action": [
-				"logs:CreateLogGroup",
 				"logs:CreateLogStream",
-				"logs:DescribeLogGroups",
 				"logs:DescribeLogStreams",
 				"logs:PutLogEvents",
-				"logs:GetLogEvents",
-				"logs:FilterLogEvents",
-				"lambda:InvokeFunction"
+				"logs:GetLogEvents"
 			],
-			"Resource": ["arn:aws:lambda:us-east-1:593242862402:function:students-lambda-funtions"]
+			"Resource": ["${aws_cloudwatch_log_group.api-gw-log-group.arn}:*"]
 		}
 	]
 }

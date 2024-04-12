@@ -161,3 +161,7 @@ resource "aws_api_gateway_stage" "deployment-stage" {
   rest_api_id   = aws_api_gateway_rest_api.serverless-app.id
   stage_name    = var.stage_name
 }
+
+resource "aws_cloudwatch_log_group" "api-gw-log-group" {
+  name = "API-GW-Serverless-app"
+}
