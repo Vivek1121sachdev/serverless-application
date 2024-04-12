@@ -16,6 +16,7 @@ variable "repository_name" {
 }
 
 variable "image-uri" {
+  description = "ecr image uri"
   type = string
 }
 

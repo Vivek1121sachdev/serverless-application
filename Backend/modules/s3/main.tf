@@ -1,3 +1,7 @@
+#############
+# S3 Bucket #
+#############
+
 resource "aws_s3_bucket" "serverless-application-bucket" {
   bucket = var.bucket_name
 
@@ -5,6 +9,10 @@ resource "aws_s3_bucket" "serverless-application-bucket" {
     Name = var.bucket_name
   }
 }
+
+#######################
+# Enabling WebHosting #
+#######################
 
 resource "aws_s3_bucket_website_configuration" "static-website" {
   bucket = aws_s3_bucket.serverless-application-bucket.id
@@ -18,6 +26,10 @@ resource "aws_s3_bucket_website_configuration" "static-website" {
   }
 }
 
+#################
+# S3 Versioning #
+#################
+
 resource "aws_s3_bucket_versioning" "bucker-versioning" {
   bucket = aws_s3_bucket.serverless-application-bucket.id
   versioning_configuration {
@@ -25,12 +37,20 @@ resource "aws_s3_bucket_versioning" "bucker-versioning" {
   }
 }
 
+############################
+# Bucker Ownership Control #
+############################
+
 resource "aws_s3_bucket_ownership_controls" "bucket-ownership" {
   bucket = aws_s3_bucket.serverless-application-bucket.id
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
 }
+
+##############################
+# Making Publicly Accessible #
+##############################
 
 resource "aws_s3_bucket_public_access_block" "public_access" {
   bucket = aws_s3_bucket.serverless-application-bucket.id
@@ -41,6 +61,10 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
   restrict_public_buckets = false
 }
 
+##############
+# ACL Policy #
+##############
+
 resource "aws_s3_bucket_acl" "bucket_acl" {
   depends_on = [
     aws_s3_bucket_ownership_controls.bucket-ownership,
@@ -50,6 +74,10 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
   bucket = aws_s3_bucket.serverless-application-bucket.id
   acl    = "public-read"
 }
+
+#################
+# Bucket Policy #
+#################
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.serverless-application-bucket.id

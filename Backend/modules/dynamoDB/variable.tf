@@ -18,5 +18,4 @@ variable "attribute-type" {
   type = string
   description = "type of the attribute"
   default = "S"
-  
 }

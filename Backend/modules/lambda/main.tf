@@ -1,6 +1,14 @@
+########################
+# CloudWatch Log Group #
+########################
+
 resource "aws_cloudwatch_log_group" "lambda-log-group" {
   name = "Lambda-serverless-app"
 }
+
+###################
+# Lambda Function #
+###################
 
 resource "aws_lambda_function" "lambda-function" {
   function_name = var.function_name

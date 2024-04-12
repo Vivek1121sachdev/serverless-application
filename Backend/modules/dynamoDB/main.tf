@@ -1,3 +1,7 @@
+##################
+# DynamoDB Table #
+##################
+
 resource "aws_dynamodb_table" "students-data" {
   name           = var.table-name
   billing_mode   = "PROVISIONED"
