@@ -10,9 +10,17 @@ locals {
   # }
 
   resources = {
-    health = ["GET"],
-    student = ["ANY"],
-    students = ["GET"]
+    health = "GET",
+    student = "ANY",
+    students = "GET"
   }
-}
 
+  # resource = {
+  #   health = "GET",
+  #   student = [{
+  #     any = "ANY"
+  #     option = "OPTIONS"
+  #   }],
+  #   students = "GET"
+  # }
+}

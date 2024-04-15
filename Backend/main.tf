@@ -31,14 +31,21 @@ module "ecr" {
 #---------------#
 
 module "lambda" {
-  source          = ".\\modules\\lambda"
-  function_name   = "serverless-app"
-  lambda_timeout  = 900
-  repository_name = module.ecr.repository_name
-  image-uri       = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
-  execution_arn   = module.api-gw.execution_arn
-  path-parts      = compact(["health", "student", "students", ""])
+  source            = ".\\modules\\lambda"
+  function_name     = "serverless-app"
+  lambda_timeout    = 900
+  repository_name   = module.ecr.repository_name
+  image-uri         = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
+  execution_arn     = module.api-gw.execution_arn
+  path-parts        = compact(["health", "student", "students", ""])
+  dynamodb-arn      = module.dynamodb.dynamodb-arn
+  ssm-parameter-arn = aws_ssm_parameter.ssm_parameter.arn
+  ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
 }
+
+# resource "aws_cloudwatch_log_group" "lambda-log-group" {
+#   name = "/aws/lambda/serverless-app"
+# }
 
 #-----------------#
 # DynamoDb Module #
@@ -73,7 +80,21 @@ module "s3" {
   region      = "us-east-1"
 }
 
+#------------------------------------#
+# Local File to store API Invoke URL #
+#------------------------------------#
+
 resource "local_file" "api-gw-invoke-url" {
-    content  = module.api-gw.invoke_url
-    filename = "api-gw-invoke-url.txt"
+  content  = module.api-gw.invoke_url
+  filename = "api-gw-invoke-url.txt"
+}
+
+#---------------#
+# SSM Parameter #
+#---------------#
+
+resource "aws_ssm_parameter" "ssm_parameter" {
+  name  = "dbTableName"
+  type  = "String"
+  value = "students-data"
 }

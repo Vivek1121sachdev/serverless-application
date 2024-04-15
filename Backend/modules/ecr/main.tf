@@ -1,3 +1,7 @@
+##################
+# ECR Repository #
+##################
+
 resource "aws_ecr_repository" "repository_name" {
   name                 = var.repo-name
   image_tag_mutability = "MUTABLE"
@@ -7,6 +11,9 @@ resource "aws_ecr_repository" "repository_name" {
   }
 }
 
+########################
+# ECR Lifecycle Policy #
+########################
 
 resource "aws_ecr_lifecycle_policy" "image-lifecycle-policy" {
   repository = aws_ecr_repository.repository_name.id
