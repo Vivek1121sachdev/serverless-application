@@ -43,6 +43,10 @@ module "lambda" {
   ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
 }
 
+# resource "aws_cloudwatch_log_group" "lambda-log-group" {
+#   name = "/aws/lambda/serverless-app"
+# }
+
 #-----------------#
 # DynamoDb Module #
 #-----------------#

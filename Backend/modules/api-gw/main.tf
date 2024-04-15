@@ -158,7 +158,7 @@ resource "aws_api_gateway_deployment" "api-gw-deployment" {
 
 // CloudWatch Log Group //
 resource "aws_cloudwatch_log_group" "api-gw-log-group" {
-  name = "API-GW-Serverless-app"
+  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.serverless-app.id}/${var.stage_name}"
 }
 
 // API-GW Account //
@@ -187,6 +187,7 @@ resource "aws_api_gateway_stage" "deployment-stage" {
 
     depends_on = [aws_cloudwatch_log_group.api-gw-log-group]
 }
+
 
 // Method Settings //
 resource "aws_api_gateway_method_settings" "enable_logging" {

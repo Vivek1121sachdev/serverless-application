@@ -65,7 +65,16 @@ resource "aws_iam_policy" "lambda-dynamodb-policy" {
 		{
 			"Sid": "Statement2",
 			"Effect": "Allow",
-			"Action": ["dynamodb:BatchGetItem","dynamodb:GetItem","dynamodb:Query","dynamodb:Scan","dynamodb:BatchWriteItem","dynamodb:PutItem","dynamodb:UpdateItem","dynamodb:DeleteItem"],
+			"Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem"
+        ],
 			"Resource": ["${var.dynamodb-arn}"]
 		}
 	]
@@ -106,11 +115,6 @@ resource "aws_iam_role_policy_attachment" "policy-attachment" {
 
   role       = aws_iam_role.lambda-role.name
   policy_arn = each.value
-
-  depends_on = [
-    aws_iam_policy.lambda-dynamodb-policy,
-    aws_iam_policy.lambda-ssm-policy,
-  aws_iam_policy.lambda-log-policy]
 }
 
 ############################
