@@ -37,3 +37,7 @@ variable "dynamodb-arn" {
 variable "ssm-parameter-arn" {
   type = string
 }
+
+variable "ssm-parameter-value" {
+  type = string
+}

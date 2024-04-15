@@ -17,6 +17,12 @@ resource "aws_lambda_function" "lambda-function" {
   package_type  = "Image"
   role          = aws_iam_role.lambda-role.arn
 
+  environment {
+    variables = {
+      dynamoDB = "${var.ssm-parameter-value}"
+    }
+  }
+
   logging_config {
     log_format = "Text"
     log_group = aws_cloudwatch_log_group.lambda-log-group.name

@@ -1,3 +1,7 @@
+############
+# IAM Role #
+############
+
 resource "aws_iam_role" "api-gw-role" {
   name = "api-gw-role"
 
@@ -16,6 +20,10 @@ resource "aws_iam_role" "api-gw-role" {
   })
 }
 
+##############
+# Log Policy #
+##############
+
 resource "aws_iam_role_policy" "apigw-log-policy" {
   name = "apigw-log-policy"
   role = aws_iam_role.api-gw-role.id
@@ -27,7 +35,7 @@ resource "aws_iam_role_policy" "apigw-log-policy" {
     {
       "Effect" : "Allow",
       "Action" : [
-		"logs:DescribeLogStreams",
+		    "logs:DescribeLogStreams",
         "logs:PutLogEvents",
         "logs:GetLogEvents",
         "logs:CreateLogStream"

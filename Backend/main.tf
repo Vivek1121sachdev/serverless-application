@@ -40,6 +40,7 @@ module "lambda" {
   path-parts        = compact(["health", "student", "students", ""])
   dynamodb-arn      = module.dynamodb.dynamodb-arn
   ssm-parameter-arn = aws_ssm_parameter.ssm_parameter.arn
+  ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
 }
 
 #-----------------#

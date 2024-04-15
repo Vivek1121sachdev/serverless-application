@@ -1,3 +1,7 @@
+############
+# IAM Role #
+############
+
 resource "aws_iam_role" "lambda-role" {
   name               = "lambda-role"
   assume_role_policy = <<EOF
@@ -16,6 +20,10 @@ resource "aws_iam_role" "lambda-role" {
 }
 EOF
 }
+
+##############
+# Log Policy #
+##############
 
 resource "aws_iam_policy" "lambda-log-policy" {
   name        = "lambda-log-policy"
@@ -41,6 +49,10 @@ resource "aws_iam_policy" "lambda-log-policy" {
 EOF
 }
 
+###################
+# DynamoDB Policy #
+###################
+
 resource "aws_iam_policy" "lambda-dynamodb-policy" {
 
   name        = "lambda-dynamodb-policy"
@@ -60,6 +72,10 @@ resource "aws_iam_policy" "lambda-dynamodb-policy" {
 }
 EOF
 }
+
+##############
+# SSM Policy #
+##############
 
 resource "aws_iam_policy" "lambda-ssm-policy" {
 
@@ -81,6 +97,10 @@ resource "aws_iam_policy" "lambda-ssm-policy" {
 EOF
 }
 
+##########################
+# Role-Policy Attachment #
+##########################
+
 resource "aws_iam_role_policy_attachment" "policy-attachment" {
   for_each = local.policy_arns
 
@@ -93,6 +113,10 @@ resource "aws_iam_role_policy_attachment" "policy-attachment" {
   aws_iam_policy.lambda-log-policy]
 }
 
+############################
+# Lambda Invoke Permission #
+############################
+
 resource "aws_lambda_permission" "lambda_permission_all_resources" {
   for_each = toset(var.path-parts)
 
@@ -102,4 +126,3 @@ resource "aws_lambda_permission" "lambda_permission_all_resources" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${var.execution_arn}/*/*/${each.value}"
 }
-
