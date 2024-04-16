@@ -31,15 +31,15 @@ module "ecr" {
 #---------------#
 
 module "lambda" {
-  source            = ".\\modules\\lambda"
-  function_name     = "serverless-app"
-  lambda_timeout    = 900
-  repository_name   = module.ecr.repository_name
-  image-uri         = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
-  execution_arn     = module.api-gw.execution_arn
-  path-parts        = compact(["health", "student", "students", ""])
-  dynamodb-arn      = module.dynamodb.dynamodb-arn
-  ssm-parameter-arn = aws_ssm_parameter.ssm_parameter.arn
+  source              = ".\\modules\\lambda"
+  function_name       = "serverless-app"
+  lambda_timeout      = 900
+  repository_name     = module.ecr.repository_name
+  image-uri           = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
+  execution_arn       = module.api-gw.execution_arn
+  path-parts          = compact(["health", "student", "students", ""])
+  dynamodb-arn        = module.dynamodb.dynamodb-arn
+  ssm-parameter-arn   = aws_ssm_parameter.ssm_parameter.arn
   ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
 }
 
@@ -73,9 +73,9 @@ module "api-gw" {
 #-----#
 
 module "sns" {
-  source = ".\\modules\\SNS"
+  source     = ".\\modules\\SNS"
   topic-name = "API-GW-Alarm-Topic"
-  protocol = "email"
+  protocol   = "email"
 }
 
 #------------#

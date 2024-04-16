@@ -157,9 +157,9 @@ resource "aws_api_gateway_deployment" "api-gw-deployment" {
 ###########################
 
 // CloudWatch Log Group //
-resource "aws_cloudwatch_log_group" "api-gw-log-group" {
-  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.serverless-app.id}/${var.stage_name}"
-}
+# resource "aws_cloudwatch_log_group" "api-gw-log-group" {
+#   name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.serverless-app.id}/${var.stage_name}"
+# }
 
 // API-GW Account //
 resource "aws_api_gateway_account" "api-gw-account" {
@@ -202,30 +202,3 @@ resource "aws_api_gateway_method_settings" "enable_logging" {
   }
 }
 
-##########################################
-# CloudWatch Alarm on 4XX and 5XX errors #
-##########################################
-
-resource "aws_cloudwatch_metric_alarm" "api_gateway_alarms" {
-  for_each = toset(var.cloudWatch_Alarms)
-
-  alarm_name          = "${aws_api_gateway_rest_api.serverless-app.name} API gateway ${each.value} rate"
-  comparison_operator = "GreaterThanThreshold"
-  period              = 300
-  evaluation_periods  = 1
-  metric_name         = "${each.value}"
-  namespace           = "AWS/ApiGateway"
-  statistic           = "Sum"
-  threshold           = 0
-  alarm_description   = "API gateway ${each.value} rate has exceeded threshold"
-  alarm_actions       = ["${var.topic_arn}"]
-  treat_missing_data  = "ignore"
-  actions_enabled     = true
-  dimensions          = {
-    ApiName = aws_api_gateway_rest_api.serverless-app.name
-    Stage    = var.stage_name
-    }
-}
-
-
-//test
