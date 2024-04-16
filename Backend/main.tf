@@ -110,3 +110,28 @@ resource "aws_ssm_parameter" "ssm_parameter" {
   type  = "String"
   value = "students-data"
 }
+
+#----------------------------------------#
+# CloudWatch Alarm on 4XX and 5XX errors #
+#----------------------------------------#
+
+resource "aws_cloudwatch_metric_alarm" "api_gateway_alarms" {
+  for_each = toset(local.cloudWatch_Alarm)
+
+  alarm_name          = "${module.api-gw.api-gw-name} API gateway ${each.value} rate"
+  comparison_operator = "GreaterThanThreshold"
+  period              = 300
+  evaluation_periods  = 1
+  metric_name         = "${each.value}"
+  namespace           = "AWS/ApiGateway"
+  statistic           = "Sum"
+  threshold           = 0
+  alarm_description   = "API gateway ${each.value} rate has exceeded threshold"
+  alarm_actions       = ["${module.sns.topic_arn}"]
+  treat_missing_data  = "ignore"
+  actions_enabled     = true
+  dimensions          = {
+    ApiName = module.api-gw.api-gw-name
+    Stage    = module.api-gw.api-gw-stage
+  }
+}

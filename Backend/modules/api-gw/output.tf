@@ -17,3 +17,8 @@ output "api-gw-stage" {
   value = aws_api_gateway_stage.deployment-stage.stage_name
   description = "API-GW stage name"
 }
+
+output "api-gw-name" {
+  value = aws_api_gateway_rest_api.serverless-app.name
+  description = "API-GW name"
+}
