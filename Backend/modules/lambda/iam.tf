@@ -122,7 +122,7 @@ resource "aws_iam_role_policy_attachment" "policy-attachment" {
 ############################
 
 resource "aws_lambda_permission" "lambda_permission_all_resources" {
-  for_each = toset(var.path-parts)
+  for_each = toset(local.path-parts)
 
   statement_id  = "AllowExecutionFromAPIGatewayForResources-${each.value}"
   action        = "lambda:InvokeFunction"

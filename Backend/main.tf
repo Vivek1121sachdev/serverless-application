@@ -37,7 +37,7 @@ module "lambda" {
   repository_name     = module.ecr.repository_name
   image-uri           = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
   execution_arn       = module.api-gw.execution_arn
-  path-parts          = compact(["health", "student", "students", ""])
+  path-parts          = ["health", "student", "students", ""]
   dynamodb-arn        = module.dynamodb.dynamodb-arn
   ssm-parameter-arn   = aws_ssm_parameter.ssm_parameter.arn
   ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
@@ -64,7 +64,7 @@ module "api-gw" {
   lambda_invoke_arn = module.lambda.invoke_arn
   api-gw-name       = "serverless-app"
   stage_name        = "dev"
-  cloudWatch_Alarms = compact(["4XXError", "5XXError"])
+  cloudWatch_Alarms = ["4XXError", "5XXError"]
   topic_arn         = module.sns.topic_arn
 }
 

@@ -8,8 +8,8 @@ locals {
   #   get    = "GET",
   #   any    = "ANY"
   # }
-
-  resources = {  #this should passed from module, not be hardcoded here.
+  cloudWatch_Alarm = compact(var.cloudWatch_Alarms)
+  resources = {
     health = "GET",
     student = "ANY",
     students = "GET"

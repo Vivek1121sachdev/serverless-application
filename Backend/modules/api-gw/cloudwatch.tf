@@ -11,7 +11,7 @@ resource "aws_cloudwatch_log_group" "api-gw-log-group" {
 ##########################################
 
 resource "aws_cloudwatch_metric_alarm" "api_gateway_alarms" {
-  for_each = toset(var.cloudWatch_Alarms)
+  for_each = toset(local.cloudWatch_Alarm)
 
   alarm_name          = "${aws_api_gateway_rest_api.serverless-app.name} API gateway ${each.value} rate"
   comparison_operator = "GreaterThanThreshold"
