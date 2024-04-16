@@ -4,7 +4,7 @@
 
 resource "aws_cloudwatch_log_group" "lambda-log-group" {
   name = "/aws/lambda/serverless-app"
-  retention_in_days = 7
+  retention_in_days = 7 #value from var
 }
 
 ###################

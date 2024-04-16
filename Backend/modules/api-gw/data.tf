@@ -9,7 +9,7 @@ locals {
   #   any    = "ANY"
   # }
 
-  resources = {
+  resources = {  #this should passed from module, not be hardcoded here.
     health = "GET",
     student = "ANY",
     students = "GET"

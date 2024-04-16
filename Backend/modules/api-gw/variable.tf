@@ -33,3 +33,5 @@ variable "cloudWatch_Alarms" {
 variable "topic_arn" {
   type = string
 }
+
+#add description for all variables

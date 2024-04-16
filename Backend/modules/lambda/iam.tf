@@ -87,7 +87,7 @@ EOF
 ##############
 
 resource "aws_iam_policy" "lambda-ssm-policy" {
-
+#are you passing this value?
   name        = "lambda-ssm-policy"
   path        = "/"
   description = "AWS IAM SSM Policy for managing aws lambda role"
