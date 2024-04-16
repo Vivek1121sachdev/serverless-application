@@ -43,10 +43,6 @@ module "lambda" {
   ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
 }
 
-# resource "aws_cloudwatch_log_group" "lambda-log-group" {
-#   name = "/aws/lambda/serverless-app"
-# }
-
 #-----------------#
 # DynamoDb Module #
 #-----------------#
@@ -68,6 +64,18 @@ module "api-gw" {
   lambda_invoke_arn = module.lambda.invoke_arn
   api-gw-name       = "serverless-app"
   stage_name        = "dev"
+  cloudWatch_Alarms = compact(["4XXError", "5XXError"])
+  topic_arn         = module.sns.topic_arn
+}
+
+#-----#
+# SNS #
+#-----#
+
+module "sns" {
+  source = ".\\modules\\SNS"
+  topic-name = "API-GW-Alarm-Topic"
+  protocol = "email"
 }
 
 #------------#
