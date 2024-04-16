@@ -26,9 +26,10 @@ variable "stage_name" {
   type = string
 }
 
-# variable "integration_response_parameters" {
-#   type = map
-#   default = {
-#     "method.response.header.Access-Control-Allow-Origin"  = "'http://serverless-application-frontend-code.s3-website.us-east-1.amazonaws.com'"
-#   }
-# }
+variable "cloudWatch_Alarms" {
+  type = list(string)
+}
+
+variable "topic_arn" {
+  type = string
+}
