@@ -1,6 +1,9 @@
+#----------------#
+# Provider Block #
+#----------------#
+
 provider "aws" {
   region = var.region
-  # profile = "vivek"
 }
 
 #------------#
@@ -13,7 +16,6 @@ terraform {
     key     = "terraform.tfstate"
     region  = "us-east-1"
     encrypt = true
-    # dynamodb_table = "terraform_state"
   }
 }
 
@@ -39,6 +41,7 @@ module "lambda" {
   execution_arn       = module.api-gw.execution_arn
   path-parts          = ["health", "student", "students", ""]
   dynamodb-arn        = module.dynamodb.dynamodb-arn
+  lambda_log_retention_period = 7
   ssm-parameter-arn   = aws_ssm_parameter.ssm_parameter.arn
   ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
 }

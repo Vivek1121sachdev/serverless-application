@@ -1,6 +1,6 @@
 variable "function_name" {
   type = string
-  default = "serverless-application"
+  description = "Lambda function name"
 }
 
 variable "lambda_timeout" {
@@ -11,18 +11,17 @@ variable "lambda_timeout" {
 
 variable "repository_name" {
   type = string
-  description = "ecr repo name"
-  default = "serverless-app"
+  description = "ECR repository name"
 }
 
 variable "image-uri" {
-  description = "ecr image uri"
   type = string
+  description = "ecr image uri"
 }
 
 variable "execution_arn" {
-  description = "api gateway execution arn to generate source arn of each resources"
   type = string
+  description = "api gateway execution arn to generate source arn of each resources"
 }
 
 variable "path-parts" {
@@ -32,12 +31,20 @@ variable "path-parts" {
 
 variable "dynamodb-arn" {
   type = string
+  description = "DynamoDB table arn"
 }
 
 variable "ssm-parameter-arn" {
   type = string
+  description = "SSM parameter arn"
 }
 
 variable "ssm-parameter-value" {
   type = string
+  description = "SSM parameter value"
+}
+
+variable "lambda_log_retention_period" {
+  type = number
+  description = "Retention period to save logs"
 }

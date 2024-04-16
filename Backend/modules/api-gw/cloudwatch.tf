@@ -1,10 +1,10 @@
-########################
-# CloudWatch Log Group #
-########################
+# ########################
+# # CloudWatch Log Group #
+# ########################
 
-resource "aws_cloudwatch_log_group" "api-gw-log-group" {
-  name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.serverless-app.id}/${var.stage_name}"
-}
+# resource "aws_cloudwatch_log_group" "api-gw-log-group" {
+#   name = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.serverless-app.id}/${var.stage_name}"
+# }
 
 ##########################################
 # CloudWatch Alarm on 4XX and 5XX errors #

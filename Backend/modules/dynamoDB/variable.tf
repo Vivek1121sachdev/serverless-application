@@ -1,21 +1,19 @@
 variable "table-name" {
   type = string
-  default = "students-data"
+  description = "DynamoDB table name"
 }
 
 variable "hash-key" {
   type = string
-  description = "partition key"
-  default = "StudentId"
+  description = "Partition key"
 }
 
 variable "attribute-name" {
   type = string
-  default = "StudentId"
+  description = "Name of the attribute"
 }
 
 variable "attribute-type" {
   type = string
-  description = "type of the attribute"
-  default = "S"
+  description = "Type of the attribute"
 }
