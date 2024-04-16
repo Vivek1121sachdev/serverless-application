@@ -20,20 +20,20 @@ resource "aws_ecr_lifecycle_policy" "image-lifecycle-policy" {
 
   policy = <<EOF
 {
-    "rules": [
-        {
-            "rulePriority": 1,
-            "description": "Keep last 3 images",
-            "selection": {
-                "tagStatus": "any",
-                "countType": "imageCountMoreThan",
-                "countNumber": 3
-            },
-            "action": {
-                "type": "expire"
-            }
-        }
-    ]
+  "rules": [
+    {
+      "rulePriority": 1,
+      "description": "Keep last 3 images",
+      "selection": {
+        "tagStatus": "any",
+        "countType": "imageCountMoreThan",
+        "countNumber": 3
+      },
+      "action": {
+        "type": "expire"
+      }
+    }
+  ]
 }
 EOF
 }

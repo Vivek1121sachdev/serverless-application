@@ -1,5 +1,4 @@
 variable "repo-name" {
   type = string
-  default = "serverless-app"
+  description = "ECR repository name"
 }
-
