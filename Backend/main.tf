@@ -76,6 +76,7 @@ module "sns" {
   source     = ".\\modules\\SNS"
   topic-name = "API-GW-Alarm-Topic"
   protocol   = "email"
+  endpoint   = "vivek.sachdev@techholding.co"
 }
 
 #------------#
