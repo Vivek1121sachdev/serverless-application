@@ -13,10 +13,8 @@ pipeline{
         stage('terraform init'){
             steps{
                 dir('Backend'){
-                    bat "dir"
                     bat "terraform init -upgrade"
                 }
-                // bat "cd Backend"
             }
         }
         
@@ -26,9 +24,7 @@ pipeline{
                 script{
                     dir('Backend'){
 
-                        bat """
-                            terraform apply -target=module.ecr --auto-approve
-                        """
+                        bat "terraform apply -target=module.ecr --auto-approve"
                     
                         def HashValue = "initial value"
                         bat "git rev-parse  --short=6 HEAD~0 > gitHashValue.txt"
@@ -57,7 +53,6 @@ pipeline{
             steps{
                 script{
                     dir('Backend'){
-                        bat "dir"
                         bat 'terraform apply --auto-approve'
                     }
                 }
