@@ -1,6 +1,6 @@
 // variables of main.tf 
 variable "region" {
-  type = string
+  type        = string
   description = "Region name"
 }
 

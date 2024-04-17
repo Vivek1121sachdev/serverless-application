@@ -20,7 +20,8 @@ resource "aws_lambda_function" "lambda-function" {
 
   environment {
     variables = {
-      dynamoDB = "${var.ssm-parameter-value}"
+      dbTableName = data.aws_ssm_parameter.dbTableName.value
+      mySecondParam = var.parameters
     }
   }
 

@@ -88,6 +88,7 @@ EOF
 
 resource "aws_iam_policy" "lambda-ssm-policy" {
 #are you passing this value?
+
   name        = "lambda-ssm-policy"
   path        = "/"
   description = "AWS IAM SSM Policy for managing aws lambda role"
@@ -98,8 +99,8 @@ resource "aws_iam_policy" "lambda-ssm-policy" {
 		{
 			"Sid": "Statement3",
 			"Effect": "Allow",
-			"Action": ["ssm:GetParameter"],
-			"Resource": ["${var.ssm-parameter-arn}"]
+			"Action": ["ssm:GetParameters"],
+			"Resource": ["${var.parameter_ssm_arn}"]
 		}
 	]
 }

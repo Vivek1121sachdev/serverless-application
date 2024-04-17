@@ -8,3 +8,8 @@ locals {
   path-parts = compact(var.path-parts)
 }
 
+
+// if we use this, we dont need the iam policy for this parameter and directly use the value of this parameter whenever we want
+data "aws_ssm_parameter" "dbTableName" {
+  name = "/serverless-application/dynamodb/dbTableName"
+}
