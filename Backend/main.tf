@@ -33,17 +33,18 @@ module "ecr" {
 #---------------#
 
 module "lambda" {
-  source              = ".\\modules\\lambda"
-  function_name       = "serverless-app"
-  lambda_timeout      = 900
-  repository_name     = module.ecr.repository_name
-  image-uri           = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
-  execution_arn       = module.api-gw.execution_arn
-  path-parts          = ["health", "student", "students", ""]
-  dynamodb-arn        = module.dynamodb.dynamodb-arn
+
+  source                      = ".\\modules\\lambda"
+  function_name               = "serverless-app"
+  lambda_timeout              = 900
+  repository_name             = module.ecr.repository_name
+  image-uri                   = "${module.ecr.repository_url}:${data.aws_ecr_image.image.image_tags[0]}"
+  execution_arn               = module.api-gw.execution_arn
+  path-parts                  = ["health", "student", "students", ""]
+  dynamodb-arn                = module.dynamodb.dynamodb-arn
   lambda_log_retention_period = 7
-  ssm-parameter-arn   = aws_ssm_parameter.ssm_parameter.arn
-  ssm-parameter-value = aws_ssm_parameter.ssm_parameter.value
+  parameters                  = local.parameters.mySecondParam
+  parameter_ssm_arn           = "${aws_ssm_parameter.ssm_parameter["mySecondParam"].arn}"
 }
 
 #-----------------#
@@ -64,6 +65,7 @@ module "dynamodb" {
 
 module "api-gw" {
   source            = ".\\modules\\api-gw"
+  resources = local.resources
   lambda_invoke_arn = module.lambda.invoke_arn
   api-gw-name       = "serverless-app"
   stage_name        = "dev"
@@ -106,9 +108,11 @@ resource "local_file" "api-gw-invoke-url" {
 #---------------#
 
 resource "aws_ssm_parameter" "ssm_parameter" {
-  name  = "dbTableName"
+  for_each = local.parameters
+
+  name  = each.key
   type  = "String"
-  value = "students-data"
+  value = each.value
 }
 
 #----------------------------------------#
@@ -122,7 +126,7 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_alarms" {
   comparison_operator = "GreaterThanThreshold"
   period              = 300
   evaluation_periods  = 1
-  metric_name         = "${each.value}"
+  metric_name         = each.value
   namespace           = "AWS/ApiGateway"
   statistic           = "Sum"
   threshold           = 0
@@ -130,8 +134,8 @@ resource "aws_cloudwatch_metric_alarm" "api_gateway_alarms" {
   alarm_actions       = ["${module.sns.topic_arn}"]
   treat_missing_data  = "ignore"
   actions_enabled     = true
-  dimensions          = {
+  dimensions = {
     ApiName = module.api-gw.api-gw-name
-    Stage    = module.api-gw.api-gw-stage
+    Stage   = module.api-gw.api-gw-stage
   }
 }

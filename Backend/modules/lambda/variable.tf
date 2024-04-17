@@ -34,14 +34,14 @@ variable "dynamodb-arn" {
   description = "DynamoDB table arn"
 }
 
-variable "ssm-parameter-arn" {
+variable "parameters" {
   type = string
-  description = "SSM parameter arn"
+  description = "SSM parameters"
 }
 
-variable "ssm-parameter-value" {
-  type = string
-  description = "SSM parameter value"
+variable "parameter_ssm_arn" {
+  type = any
+  description = "ARN of the SSM parameters"
 }
 
 variable "lambda_log_retention_period" {

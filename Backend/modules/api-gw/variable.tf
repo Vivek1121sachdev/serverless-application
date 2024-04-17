@@ -4,6 +4,11 @@ variable "api-gw-name" {
   default = "serverless-app"
 }
 
+variable "resources" {
+  type = any
+  description = "API-GW resources"
+}
+
 variable "lambda_invoke_arn" {
   type = string
   description = "lambda invoke arn"
