@@ -6,6 +6,9 @@ ECR_REPO_NAME ?= serverless-app
 init:
 	terraform init -upgrade
 
+ecr_repo:
+	terraform apply -target=module.ecr --auto-approve
+
 push_img:
 	terraform apply -target=module.ecr --auto-approve
 	cd code && \
