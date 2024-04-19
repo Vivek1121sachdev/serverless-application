@@ -14,10 +14,8 @@ pipeline{
             steps{
                 dir('Backend'){
                     // bat "terraform init -upgrade"
-                    bat '''
-                    make --version
-                    make init
-                    '''
+                    bat 'make --version'
+                    bat "make init"
                 }
             }
         }
