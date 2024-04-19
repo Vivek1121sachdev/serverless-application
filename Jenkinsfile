@@ -31,7 +31,7 @@ pipeline{
             steps{
                 script{
                     dir('Backend'){
-                        bat "make push_img AWS_REGION=%AWS_REGION% AWS_ACCOUNT_ID=593242862402 ECR_REPO_NAME=serverless-app"
+                        bat "make push_img AWS_REGION=%AWS_REGION% AWS_ACCOUNT_ID=%AWS_ACCOUNT_ID% ECR_REPO_NAME=%ECR_REPO_NAME%"
                     }
                 }    
             }
