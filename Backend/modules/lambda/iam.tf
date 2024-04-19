@@ -82,6 +82,31 @@ resource "aws_iam_policy" "lambda-dynamodb-policy" {
 EOF
 }
 
+##############
+# SSM Policy #
+##############
+
+resource "aws_iam_policy" "lambda-ssm-policy" {
+#are you passing this value?
+
+  name        = "lambda-ssm-policy"
+  path        = "/"
+  description = "AWS IAM SSM Policy for managing aws lambda role"
+  policy      = <<EOF
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "Statement3",
+			"Effect": "Allow",
+			"Action": ["ssm:GetParameters"],
+			"Resource": ["${var.parameter_ssm_arn}"]
+		}
+	]
+}
+EOF
+}
+
 ##########################
 # Role-Policy Attachment #
 ##########################

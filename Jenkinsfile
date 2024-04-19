@@ -13,25 +13,29 @@ pipeline{
         stage('terraform init'){
             steps{
                 dir('Backend'){
-                    bat "make init"
+                    bat "terraform init -upgrade"
                 }
             }
         }
-        stage('creating_ecr_repo'){
-            steps{
-                script{
-                    dir('Backend'){
-                        bat "make ecr_repo"
-                    }
-                }
-            }
-        }
+        
         stage('pushing image to ecr')
         {
             steps{
                 script{
                     dir('Backend'){
-                        bat "make push_img AWS_REGION=%AWS_REGION% AWS_ACCOUNT_ID=%AWS_ACCOUNT_ID% ECR_REPO_NAME=%ECR_REPO_NAME%"
+
+                        bat "terraform apply -target=module.ecr --auto-approve"
+                    
+                        def HashValue = "initial value"
+                        bat "git rev-parse  --short=6 HEAD~0 > gitHashValue.txt"
+                        HashValue = readFile(file:'gitHashValue.txt').trim()
+                    
+                        bat """
+                            cd code
+                            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 593242862402.dkr.ecr.us-east-1.amazonaws.com
+                            powershell.exe -File .\\ecr-img-push.ps1 %AWS_REGION% %AWS_ACCOUNT_ID% %ECR_REPO_NAME% ${HashValue}
+                            cd ..
+                        """
                     }
                 }    
             }
@@ -40,7 +44,7 @@ pipeline{
         stage('terraform plan'){
             steps{
                 dir('Backend'){
-                    bat "make plan"
+                    bat 'terraform plan'
                 }
             }
         }
@@ -49,7 +53,7 @@ pipeline{
             steps{
                 script{
                     dir('Backend'){
-                        bat "make apply"
+                        bat 'terraform apply --auto-approve'
                     }
                 }
             }

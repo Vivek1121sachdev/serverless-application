@@ -5,8 +5,7 @@ param (
     [string]$gitHash
 )
 
-# echo $gitHash
-Write-Output "Git Hash: $gitHash"
+echo $gitHash
 # Docker image details
 $DOCKER_IMAGE_NAME = $ECR_REPO_NAME
 
