@@ -14,7 +14,7 @@ pipeline{
             steps{
                 dir('Backend'){
                     //bat "terraform init -upgrade"
-                    bat "make --version"
+                    pwsh "make --version"
                     // bat "make init"
                 }
             }
