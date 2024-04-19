@@ -43,8 +43,8 @@ module "lambda" {
   path-parts                  = ["health", "student", "students", ""]
   dynamodb-arn                = module.dynamodb.dynamodb-arn
   lambda_log_retention_period = 7
-  parameters                  = local.parameters.mySecondParam
-  parameter_ssm_arn           = "${aws_ssm_parameter.ssm_parameter["mySecondParam"].arn}"
+  dynamic_env                 = {"dynamoDB"="/serverless/dynamodb/dbTableName", "secondParam"="mySecondParam"}
+  env                         = { "abc" = "xyz", "def" = "wer" , "dfg"= ""}
 }
 
 #-----------------#
@@ -65,7 +65,7 @@ module "dynamodb" {
 
 module "api-gw" {
   source            = ".\\modules\\api-gw"
-  resources = local.resources
+  resources         = local.resources
   lambda_invoke_arn = module.lambda.invoke_arn
   api-gw-name       = "serverless-app"
   stage_name        = "dev"
