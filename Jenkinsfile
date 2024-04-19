@@ -14,7 +14,7 @@ pipeline{
             steps{
                 dir('Backend'){
                     // bat "terraform init -upgrade"
-                    bat "winget install ezwinports.make"
+                    bat "make --version"
                     bat "make init"
                 }
             }
