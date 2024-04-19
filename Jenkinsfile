@@ -13,8 +13,8 @@ pipeline{
         stage('terraform init'){
             steps{
                 dir('Backend'){
-                    bat "terraform init -upgrade"
-                    // bat 'make --version'
+                    //bat "terraform init -upgrade"
+                    bat "make --version"
                     // bat "make init"
                 }
             }
