@@ -19,10 +19,7 @@ resource "aws_lambda_function" "lambda-function" {
   role          = aws_iam_role.lambda-role.arn
 
   environment {
-    variables = {
-      dbTableName = data.aws_ssm_parameter.dbTableName.value
-      mySecondParam = var.parameters
-    }
+    variables = local.env_vars
   }
 
   logging_config {

@@ -43,6 +43,8 @@ module "lambda" {
   path-parts                  = ["health", "student", "students", ""]
   dynamodb-arn                = module.dynamodb.dynamodb-arn
   lambda_log_retention_period = 7
+  dynamic_env                 = {"dynamoDB"="/serverless/dynamodb/dbTableName", "secondParam"="mySecondParam"}
+  env                         = { "abc" = "xyz", "def" = "wer" , "dfg"= ""}
   parameters                  = local.parameters.mySecondParam
   parameter_ssm_arn           = "${aws_ssm_parameter.ssm_parameter["mySecondParam"].arn}"
 }

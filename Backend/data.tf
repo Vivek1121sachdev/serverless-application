@@ -4,14 +4,20 @@ data "aws_ecr_image" "image" {
 }
 
 locals {
+
+  // CloudWatch Alarm names //
   cloudWatch_Alarm = ["4XXError", "5XXError"]
+
+  // API-GW resource names and methods //
   resources = {
     health = "GET",
     student = "ANY",
     students = "GET"
   }
+
+  // SSM parameter keys and values //
   parameters = {
-    "/serverless-application/dynamodb/dbTableName"   = "students-data"
-    "mySecondParam" = "foo"
+    "/serverless/dynamodb/dbTableName" = "students-data",
+    "mySecondParam"                    = "foo"
   }
 }

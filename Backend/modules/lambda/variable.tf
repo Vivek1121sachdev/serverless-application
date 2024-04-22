@@ -34,6 +34,17 @@ variable "dynamodb-arn" {
   description = "DynamoDB table arn"
 }
 
+variable "dynamic_env" {
+  type = any
+  description = "Mapping of the lambda dynamic env variable name and ssm parameter path"
+}
+
+variable "env" {
+  type = map
+  description = "static environment variable"
+}
+
+
 variable "parameters" {
   type = string
   description = "SSM parameters"
