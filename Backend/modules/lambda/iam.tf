@@ -21,33 +21,33 @@ resource "aws_iam_role" "lambda-role" {
 EOF
 }
 
-##############
-# Log Policy #
-##############
+# ##############
+# # Log Policy #
+# ##############
 
-resource "aws_iam_policy" "lambda-log-policy" {
-  name        = "lambda-log-policy"
-  path        = "/"
-  description = "AWS IAM log Policy for managing aws lambda role"
-  policy      = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "Statement1",
-      "Effect": "Allow",
-      "Action": [
-        "logs:DescribeLogStreams",
-        "logs:PutLogEvents",
-        "logs:GetLogEvents",
-        "logs:CreateLogStream"
-        ],
-      "Resource": ["${aws_cloudwatch_log_group.lambda-log-group.arn}"]
-    }
-  ]
-}
-EOF
-}
+# resource "aws_iam_policy" "lambda-log-policy" {
+#   name        = "lambda-log-policy"
+#   path        = "/"
+#   description = "AWS IAM log Policy for managing aws lambda role"
+#   policy      = <<EOF
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Sid": "Statement1",
+#       "Effect": "Allow",
+#       "Action": [
+#         "logs:DescribeLogStreams",
+#         "logs:PutLogEvents",
+#         "logs:GetLogEvents",
+#         "logs:CreateLogStream"
+#         ],
+#       "Resource": ["${aws_cloudwatch_log_group.lambda-log-group.arn}"]
+#     }
+#   ]
+# }
+# EOF
+# }
 
 ###################
 # DynamoDB Policy #
