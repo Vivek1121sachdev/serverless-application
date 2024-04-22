@@ -31,24 +31,6 @@ resource "aws_api_gateway_method" "methods" {
   authorization = var.authorization
 }
 
-###################
-# Method Response #
-###################
-
-resource "aws_api_gateway_method_response" "method_responses" {
-  for_each = var.resources
-
-  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
-  resource_id = aws_api_gateway_resource.resources[each.key].id
-  http_method = aws_api_gateway_method.methods[each.key].http_method
-  status_code = 200
-  response_parameters = {
-   "method.response.header.Access-Control-Allow-Origin"  = true
-    "method.response.header.Access-Control-Allow-Methods" = true
-    "method.response.header.Access-Control-Allow-Headers" = true
-  }
-}
-
 ########################
 # Backend -Integration #
 ########################
@@ -68,6 +50,25 @@ resource "aws_api_gateway_integration" "method-resource-integration" {
   }
 }
 
+###################
+# Method Response #
+###################
+
+resource "aws_api_gateway_method_response" "method_responses" {
+  for_each = var.resources
+
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id = aws_api_gateway_resource.resources[each.key].id
+  http_method = aws_api_gateway_method.methods[each.key].http_method
+  status_code = 200
+  response_parameters = {
+   "method.response.header.Access-Control-Allow-Origin"  = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Headers" = true
+  }
+}
+
+
 ############################
 # Student - Option Method  #
 ############################
@@ -79,6 +80,38 @@ resource "aws_api_gateway_method" "student-method-option" {
   resource_id   = aws_api_gateway_resource.resources["student"].id
   http_method   = "OPTIONS"
   authorization = var.authorization
+}
+
+// Mock Integration //
+resource "aws_api_gateway_integration" "student-integration-option" {
+
+  rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
+  resource_id             = aws_api_gateway_resource.resources["student"].id
+  http_method             = aws_api_gateway_method.student-method-option.http_method
+  integration_http_method = var.integration_http_method
+  type                    = "MOCK"
+
+  request_templates = {
+    "application/json" = "{ \"statusCode\": 200 }"
+  }
+}
+
+// Integration Response //
+resource "aws_api_gateway_integration_response" "integration_response_student-option" {
+
+  rest_api_id = aws_api_gateway_rest_api.serverless-app.id
+  resource_id = aws_api_gateway_resource.resources["student"].id
+  http_method = aws_api_gateway_method.student-method-option.http_method
+  status_code = 200
+  response_parameters = {
+        "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT,DELETE'",
+        "method.response.header.Access-Control-Allow-Origin" = "'*'"
+    }
+  depends_on = [
+    aws_api_gateway_integration.student-integration-option,
+    aws_api_gateway_method_response.method_response_student-option
+  ]
 }
 
 // Method Response //
@@ -96,20 +129,6 @@ resource "aws_api_gateway_method_response" "method_response_student-option" {
     "method.response.header.Access-Control-Allow-Origin"  = true
     "method.response.header.Access-Control-Allow-Methods" = true
     "method.response.header.Access-Control-Allow-Headers" = true
-  }
-}
-
-// Mock Integration //
-resource "aws_api_gateway_integration" "student-integration-option" {
-
-  rest_api_id             = aws_api_gateway_rest_api.serverless-app.id
-  resource_id             = aws_api_gateway_resource.resources["student"].id
-  http_method             = aws_api_gateway_method.student-method-option.http_method
-  integration_http_method = var.integration_http_method
-  type                    = "MOCK"
-
-  request_templates = {
-    "application/json" = "{ \"statusCode\": 200 }"
   }
 }
 
@@ -178,7 +197,7 @@ resource "aws_api_gateway_stage" "deployment-stage" {
       ip            = "$context.identity.sourceIp"
       httpMethod    = "$context.httpMethod"
       path          = "$context.path"
-      status        = "$context.status"
+      status        = "$context.status" 
       responseLength = "$context.responseLength"
       domainName    = "$context.domainName"
     })
